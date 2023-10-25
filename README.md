@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# IF3110_Pengembangan Aplikasi Berbasis Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## *Tubes1_Kelompok 8*
 
-## Available Scripts
+## **Table of Contents**
+* [Program Description](#program-description)
+* [Required Program](#required-program)
+* [Used Packages](#used-packages)
+* [Installation Guide](#installation-guide)
+* [Execution Guide](#execution-guide)
+* [Implementation Screenshots](#implementation-screenshots)
+* [Progress Report](#progress-report)
+* [Workload Distribution](#workload-distribution)
 
-In the project directory, you can run:
+## **Program Description**
+**InfoAnimeMasse** is an web-based application that allows user to track and rate anime series. Users could search animes, add animes to their own list, also give ratings and reviews.
 
-### `npm start`
+## **Program Requirement**
+Here are the requirements to run the program
+| Requirements | Reference Link |
+|--------------|----------------|
+| Nodejs | [Nodejs](https://nodejs.org/en) |
+| Docker | [Docker](https://docs.docker.com/desktop/install/windows-install/) |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## **Used Packages**
+Here are the packages used in the program
+| ChakraUI | [ChakraUI](https://chakra-ui.com/getting-started) |
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## **Installation Guide**
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## **Execution Guide**
 
-### `npm run build`
+## **Implementation Screenshots**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## **Workload Distribution**
+| Name                     | Student ID | Client-side | Server-side |
+|--------------------------|------------|-------------|-------------|
+| Irfan                    | 10023176   |  |  |
+| Bagas Aryo Seto          | 13521081   |  |  |
+| Juan Christopher Santoso | 13521116   |  |  |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
