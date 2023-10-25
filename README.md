@@ -24,6 +24,8 @@ Here are the requirements to run the program
 
 ## **Used Packages**
 Here are the packages used in the program
+| Packages | Reference Link |
+|----------|------------------------|
 | ChakraUI | [ChakraUI](https://chakra-ui.com/getting-started) |
 
 ## **Installation Guide**
