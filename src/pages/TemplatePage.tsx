@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function TemplatePages() {
+export default function TemplatePage() {
   return (
-    <div>TemplatePages</div>
+    <div>TemplatePage</div>
   )
 }
 
