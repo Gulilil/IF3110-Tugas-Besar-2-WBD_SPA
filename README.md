@@ -21,12 +21,16 @@ Here are the requirements to run the program
 |--------------|----------------|
 | Nodejs | [Nodejs](https://nodejs.org/en) |
 | Docker | [Docker](https://docs.docker.com/desktop/install/windows-install/) |
+| Yarn   | [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) |
+
 
 ## **Used Packages**
 Here are the packages used in the program
 | Packages | Reference Link |
 |----------|------------------------|
 | ChakraUI | [ChakraUI](https://chakra-ui.com/getting-started) |
+| React-router-dom | [React-router-dom](https://www.npmjs.com/package/react-router-dom) |
+| React-icons | [React-icons](https://react-icons.github.io/react-icons/) |
 
 ## **Installation Guide**
 

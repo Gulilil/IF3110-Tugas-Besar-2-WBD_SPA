@@ -1,11 +1,7 @@
-FROM node:16-alpine as builder
-WORKDIR /react-app
-COPY package*.json .
-COPY yarn.lock .
-COPY vite.config.ts .
-COPY tsconfig.json .
-COPY .yarnrc.yml .
-RUN yarn install
+FROM node:17-alpine
+WORKDIR /app
+COPY package.json .
+RUN yarn
 COPY . .
-RUN yarn build
-CMD ["yarn", "preview", "--host", "0.0.0.0"]
+EXPOSE 5173
+CMD ["yarn", "dev", "--host"]
