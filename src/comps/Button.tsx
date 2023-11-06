@@ -6,17 +6,19 @@ export const Button = ({
   onClick,
   bgColor,
   color,
+  width,
 }: {
-  text?: string;
+  text? : string;
   onClick?: () => void;
   bgColor?: string;
   color? : string;
+  width? : string | number;
 }) => {
   return (
     <Flex
       onClick={onClick}
       py={"5px"}
-      px={"20px"}
+      px={"15px"}
       bgColor={bgColor}
       justifyContent={"center"}
       alignItems={"center"}
@@ -24,12 +26,14 @@ export const Button = ({
       fontWeight={"bold"}
       borderRadius={"5px"}
       color={color}
+      width={width}
       transitionDuration="0.2s"
       transitionTimingFunction= "ease-in-out"
       _hover={{
         transitionDuration:"0.2s",
         transitionTimingFunction: "ease-in-out",
         opacity: "0.6",
+        px : "20px"
       }}
     >
       {text}

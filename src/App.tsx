@@ -7,6 +7,10 @@ import ReferencePage from "./pages/ReferencePage";
 import SignupPage from "./pages/SignupPage";
 import ErrorPage from "./pages/ErrorPage";
 import { Navbar } from "./comps/Navbar";
+import ForumListPage from "./pages/ForumListPage";
+import ForumDetailPage from "./pages/ForumDetailPage";
+import { Footer } from "./comps/Footer";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -25,8 +29,12 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/reference" element={<ReferencePage />} />
+        <Route path="/profile" element={<ProfilePage/>} />
+        <Route path='/forum' element={<ForumListPage/>} />
+        <Route path="/forum/:id" element={<ForumDetailPage />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
+      <Footer/>
     </Flex>
   );
 }

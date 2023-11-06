@@ -110,7 +110,7 @@ export const Navbar = () => {
             {" "}
             <NavbarButtons text="Home" />{" "}
           </Link>
-          <Link to="/explore">
+          <Link to="/forum">
             {" "}
             <NavbarButtons text="Explore" />{" "}
           </Link>
