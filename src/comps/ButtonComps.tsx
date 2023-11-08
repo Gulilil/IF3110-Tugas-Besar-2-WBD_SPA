@@ -1,21 +1,24 @@
 import React from "react";
-import { Flex } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
-export const Button = ({
+export const ButtonComps = ({
   text,
   onClick,
   bgColor,
   color,
   width,
+  disabled,
 }: {
   text? : string;
   onClick?: () => void;
   bgColor?: string;
   color? : string;
   width? : string | number;
+  disabled? : boolean
 }) => {
   return (
-    <Flex
+    <Button
+      display={disabled? "none" : "flex"}
       onClick={onClick}
       py={"5px"}
       px={"15px"}
@@ -27,16 +30,16 @@ export const Button = ({
       borderRadius={"5px"}
       color={color}
       width={width}
+      minW={"100px"}
       transitionDuration="0.2s"
       transitionTimingFunction= "ease-in-out"
       _hover={{
         transitionDuration:"0.2s",
         transitionTimingFunction: "ease-in-out",
         opacity: "0.6",
-        px : "20px"
       }}
     >
       {text}
-    </Flex>
+    </Button>
   );
 };

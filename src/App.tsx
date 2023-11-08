@@ -16,9 +16,10 @@ function App() {
   return (
     <Flex
       maxW={"2560px"}
+      minH={"100vh"}
       w={"full"}
       flexDir={"column"}
-      justifyContent={"center"}
+      justifyContent={"space-between"}
       alignItems={"center"}
       mx={"auto"}
       backgroundColor={"light_gray"}

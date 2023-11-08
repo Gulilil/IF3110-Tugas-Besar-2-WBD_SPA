@@ -1,7 +1,9 @@
 FROM node:17-alpine
 WORKDIR /app
 COPY package.json .
-RUN yarn
+COPY tsconfig.json .
+COPY src/ .
+COPY public/ .
+RUN npm install
 COPY . .
-EXPOSE 5173
-CMD ["yarn", "dev", "--host"]
+CMD npm start

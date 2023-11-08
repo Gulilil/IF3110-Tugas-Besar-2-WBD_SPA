@@ -1,17 +1,53 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { FullHeightPageWithBackground } from "../comps/FullHeightPageWithBackground";
-import { Flex, Text, Wrap, WrapItem, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { Button } from "../comps/Button";
+import {
+  Flex,
+  Text,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
+import { ButtonComps } from "../comps/ButtonComps";
 import { Link } from "react-router-dom";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 export default function SignupPage() {
+  const [usernameHolder, setUsernameHolder] = useState("");
+  const [passwordHolder, setPasswordHolder] = useState("");
+  const [emailHolder, setEmailHolder] = useState("");
   const [validEmail, setValidEmail] = useState(false);
   const [validUsername, setValidUsername] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
 
   const handleSubmit = () => {
     console.log("signup click");
+  };
+
+  const checkEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailHolder(e.target.value);
+    if (e.target.value.toLowerCase().match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){
+      setValidEmail(true);
+    } else {
+      setValidEmail(false);
+    }
+  }
+
+  const checkUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsernameHolder(e.target.value);
+    if (e.target.value.length >= 8) {
+      setValidUsername(true);
+    } else {
+      setValidUsername(false);
+    }
+  };
+
+  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordHolder(e.target.value);
+    if (e.target.value.length > 0) {
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
   };
 
   return (
@@ -47,14 +83,21 @@ export default function SignupPage() {
                 width={"full"}
                 variant="flushed"
                 placeholder="Enter your email"
+                value={emailHolder}
+                onChange={(e) => checkEmail(e)}
               />
               <InputRightElement>
-                <CheckIcon color={"green"} display={validEmail ? "block" : "none"}/>
-                <CloseIcon color={"red"} display={validEmail ? "none" : "block"}/>
+                <CheckIcon
+                  color={"green"}
+                  display={validEmail ? "block" : "none"}
+                />
+                <CloseIcon
+                  color={"red"}
+                  display={validEmail ? "none" : "block"}
+                />
               </InputRightElement>
             </InputGroup>
           </Flex>
-
 
           <Flex flexDir={"column"} gap={"10px"}>
             <Text fontWeight={"bold"}> Username </Text>
@@ -63,14 +106,21 @@ export default function SignupPage() {
                 width={"full"}
                 variant="flushed"
                 placeholder="Enter your username"
+                value={usernameHolder}
+                onChange={(e) => checkUsername(e)}
               />
               <InputRightElement>
-                <CheckIcon color={"green"} display={validUsername ? "block" : "none"}/>
-                <CloseIcon color={"red"} display={validUsername ? "none" : "block"}/>
+                <CheckIcon
+                  color={"green"}
+                  display={validUsername ? "block" : "none"}
+                />
+                <CloseIcon
+                  color={"red"}
+                  display={validUsername ? "none" : "block"}
+                />
               </InputRightElement>
             </InputGroup>
           </Flex>
-
 
           <Flex flexDir={"column"} gap={"10px"}>
             <Text fontWeight={"bold"}> Password </Text>
@@ -80,62 +130,46 @@ export default function SignupPage() {
                 width={"full"}
                 variant="flushed"
                 placeholder="Enter your password"
+                value={passwordHolder}
+                onChange={(e) => checkPassword(e)}
               />
               <InputRightElement>
-                <CheckIcon color={"green"} display={validPassword ? "block" : "none"}/>
-                <CloseIcon color={"red"} display={validPassword ? "none" : "block"}/>
+                <CheckIcon
+                  color={"green"}
+                  display={validPassword ? "block" : "none"}
+                />
+                <CloseIcon
+                  color={"red"}
+                  display={validPassword ? "none" : "block"}
+                />
               </InputRightElement>
             </InputGroup>
           </Flex>
 
           <Flex justifyContent={"center"} alignItems={"center"}>
-            <Button
+            <ButtonComps
               text="Signup"
               bgColor="blue_cobalt"
               color="white"
               width={"200px"}
               onClick={() => handleSubmit()}
+              disabled={!validEmail || !validUsername || !validPassword}
             />
           </Flex>
         </Flex>
 
-        <Wrap spacing="20px" flexDir={"row"} justify={"center"}>
-          <WrapItem>
-            <Link to="/login">
-              <Flex
-                maxW={{ base: "95%", lg: "180px" }}
-                gap="10px"
-                flexDir={"column"}
-              >
-                <Text textAlign={"center"}>
-                  {" "}
-                  Have already made an account?{" "}
-                </Text>
-                <Button text="Login" bgColor="yellow_golden" color="white" />
-              </Flex>
-            </Link>
-          </WrapItem>
-
-          <WrapItem>
-            <Link to="/reference">
-              <Flex
-                maxW={{ base: "95%", lg: "180px" }}
-                gap="10px"
-                flexDir={"column"}
-              >
-                <Text textAlign={"center"}>
-                  {" "}
-                  Signup and link to InfoAnimeMasse{" "}
-                </Text>
-                <Button
-                  text="InfoAnimeMasse"
-                  bgColor="red_orange"
-                  color="white"
-                />
-              </Flex>
-            </Link>
-          </WrapItem>
-        </Wrap>
+        <Flex
+          maxW={{ base: "95%", lg: "180px" }}
+          gap="10px"
+          flexDir={"column"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <Text textAlign={"center"}> Have already made an account? </Text>
+          <Link to="/login">
+            <ButtonComps text="Login" bgColor="yellow_golden" color="white" />
+          </Link>
+        </Flex>
       </Flex>
     </FullHeightPageWithBackground>
   );
