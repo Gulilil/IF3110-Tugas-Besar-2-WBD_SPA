@@ -1,8 +1,13 @@
 import React from "react";
 import { Flex, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 export const Footer = () => {
+
+  const location = useLocation();
+  const parentPath = location.pathname.split('/')[1];
+  if (parentPath === "signup" || parentPath === "login" || parentPath === "reference") return null;
+
   return (
     <Flex
       width={"full"}

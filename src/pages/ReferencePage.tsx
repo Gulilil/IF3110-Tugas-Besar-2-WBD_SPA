@@ -122,6 +122,7 @@ export default function ReferencePage() {
               bgColor="red_orange"
               color="white"
               onClick={() => handleSubmit()}
+              disabled={!validUsername || !validPassword}
             />
           </WrapItem>
         </Wrap>

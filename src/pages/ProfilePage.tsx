@@ -17,8 +17,33 @@ const PROFILE_PIC_SIZE = "200px";
 
 export default function ProfilePage() {
   const [editPopup, setEditPopup] = useState(false);
+  const [usernameHolder, setUsernameHolder] = useState("");
+  const [passwordHolder, setPasswordHolder] = useState("");
   const [validUsername, setValidUsername] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
+
+  const handleEditSubmit = () => {
+
+  }
+
+  const checkUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsernameHolder(e.target.value);
+    if (e.target.value.length >= 8) {
+      setValidUsername(true);
+    } else {
+      setValidUsername(false);
+    }
+  };
+
+  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordHolder(e.target.value);
+    if (e.target.value.length > 0) {
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
+  };
+  
 
   return (
     <Flex
@@ -55,12 +80,14 @@ export default function ProfilePage() {
         </Link>
       </Flex>
 
+
+
       <PopupWithBlackOverlay
         open={editPopup}
         setClose={() => setEditPopup(false)}
       >
-        <Flex flexDir={"column"} backgroundColor={"white"} padding={"20px"}>
-          <Text mx={"auto"} my={"20px"} fontWeight={"bold"} fontSize={"24px"}>
+        <Flex flexDir={"column"} backgroundColor={"white"} padding={"20px"} gap={"20px"}>
+          <Text mx={"auto"} fontWeight={"bold"} fontSize={"24px"}>
             {" "}
             Edit Profile{" "}
           </Text>
@@ -71,6 +98,8 @@ export default function ProfilePage() {
                 width={"full"}
                 variant="flushed"
                 placeholder="Enter your username"
+                value={usernameHolder}
+                onChange={(e) => checkUsername(e)}
               />
               <InputRightElement>
                 <CheckIcon
@@ -93,6 +122,8 @@ export default function ProfilePage() {
                 width={"full"}
                 variant="flushed"
                 placeholder="Enter your password"
+                value={passwordHolder}
+                onChange={(e) => checkPassword(e)}
               />
               <InputRightElement>
                 <CheckIcon
@@ -105,6 +136,17 @@ export default function ProfilePage() {
                 />
               </InputRightElement>
             </InputGroup>
+          </Flex>
+
+          <Flex justifyContent={"center"} alignItems={"center"}>
+            <ButtonComps
+              text="Edit Profile"
+              bgColor="yellow_golden"
+              width={"200px"}
+              color="white"
+              onClick={() => handleEditSubmit()}
+              disabled={!validPassword || !validUsername}
+            />
           </Flex>
         </Flex>
       </PopupWithBlackOverlay>
