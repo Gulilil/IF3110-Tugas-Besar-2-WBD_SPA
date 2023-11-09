@@ -7,7 +7,7 @@ export const ImageComps = ({
   height,
   ratio,
   onClick,
-  rounded
+  rounded,
 }: {
   url?: string;
   width?: string | number;
@@ -30,7 +30,9 @@ export const ImageComps = ({
       <Image
         src={url || "/placeholder.jpg"}
         alt={url}
-        objectFit={"contain"}
+        w={"full"}
+        h={"full"}
+        objectFit={"cover"}
         objectPosition={"center"}
       />
     </Flex>

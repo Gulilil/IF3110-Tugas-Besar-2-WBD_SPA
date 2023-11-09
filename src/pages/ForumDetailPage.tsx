@@ -1,6 +1,11 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import ErrorPage from './ErrorPage';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { Flex, Text } from "@chakra-ui/react";
+import ErrorPage from "./ErrorPage";
+import { ForumPost } from "../comps/ForumPost";
+import { LoremIpsum_3Paragraph } from "../dummy/LoremIpsum";
+import { PostData } from "../dummy/AllData";
+import { ButtonComps } from "../comps/ButtonComps";
 
 export default function ForumDetailPage() {
   const id = useParams().id;
@@ -9,9 +14,55 @@ export default function ForumDetailPage() {
   // if (!id not found) {
   //   return (<ErrorPage/>)
   // }
+
   return (
-    <div>
-      {`ForumDetailPage With ID : ${id}` } 
-    </div>
-  )
+    <Flex
+      justifyContent={"center"}
+      alignItems={"center"}
+      flexDir={"column"}
+      w={"90%"}
+    >
+      <Text fontWeight={"bold"} fontSize={"24"}>
+        {" "}
+        {`ForumDetailPage wth ID : ${id}`}{" "}
+      </Text>
+
+      {/* Main Content */}
+      {PostData.map((data) => {
+        if (data.forum_id.toString() === id && data.post_id === 1) {
+          return (
+            <ForumPost
+              width={"full"}
+              headerBgColor="red_orange"
+              text={data.content}
+              date={data.created_at}
+              authorName={"aa"}
+              post_id={data.post_id}
+            />
+          );
+        }
+      })}
+ 
+      <Flex flexDir={"row"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"30px"} >
+        <ButtonComps text="New Reply" bgColor="red_orange" color="white" onClick={() => {}}/>
+        <Flex w={"full"} h={"2px"} bgColor={"#787878"} />
+      </Flex>
+
+      {/* Reply Content */}
+      {PostData.map((data) => {
+        if (data.forum_id.toString() === id && data.post_id !== 1) {
+          return (
+            <ForumPost
+              width={"90%"}
+              headerBgColor="blue_cobalt"
+              text={data.content}
+              date={data.created_at}
+              authorName={"aa"}
+              post_id={data.post_id}
+            />
+          );
+        }
+      })}
+    </Flex>
+  );
 }

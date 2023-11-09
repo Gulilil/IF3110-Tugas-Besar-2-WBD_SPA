@@ -26,6 +26,9 @@ export default function ProfilePage() {
       justifyContent={"center"}
       alignItems={"center"}
       gap={"32px"}
+      border={"2px solid black"}
+      py={"30px"}
+      px={"50px"}
     >
       <ImageComps
         width={PROFILE_PIC_SIZE}
