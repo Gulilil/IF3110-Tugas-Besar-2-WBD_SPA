@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Flex, Text } from "@chakra-ui/react";
 import ErrorPage from "./ErrorPage";
 import { ForumPost } from "../comps/ForumPost";
-import { LoremIpsum_3Paragraph } from "../dummy/LoremIpsum";
 import { PostData } from "../dummy/AllData";
 import { ButtonComps } from "../comps/ButtonComps";
 
@@ -21,6 +20,7 @@ export default function ForumDetailPage() {
       alignItems={"center"}
       flexDir={"column"}
       w={"90%"}
+      py={"20px"}
     >
       <Text fontWeight={"bold"} fontSize={"24"}>
         {" "}
