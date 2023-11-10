@@ -14,32 +14,22 @@ import { Link } from "react-router-dom";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 export default function ReferencePage() {
-  const [usernameHolder, setUsernameHolder] = useState("");
-  const [passwordHolder, setPasswordHolder] = useState("");
-  const [validUsername, setValidUsername] = useState(false);
-  const [validPassword, setValidPassword] = useState(false);
+  const [referalHolder, setReferalHolder] = useState("");
+  const [validReferal, setValidReferal] = useState(false);
 
   const handleSubmit = () => {
     console.log("clicked")
   }
 
-  const checkUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsernameHolder(e.target.value);
-    if (e.target.value.length >= 8) {
-      setValidUsername(true);
+  const checkReferal = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setReferalHolder(e.target.value);
+    if (e.target.value.length === 20) {
+      setValidReferal(true);
     } else {
-      setValidUsername(false);
+      setValidReferal(false);
     }
   };
 
-  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordHolder(e.target.value);
-    if (e.target.value.length > 0) {
-      setValidPassword(true);
-    } else {
-      setValidPassword(false);
-    }
-  };
   return (
     <FullHeightPageWithBackground background="wallpaper/reference.jpg">
       <Flex
@@ -59,51 +49,28 @@ export default function ReferencePage() {
         </Text>
 
         <Flex flexDir={"column"} gap={"10px"}>
-          <Text fontWeight={"bold"}> Username </Text>
+          <Text fontWeight={"bold"}> Referal Code </Text>
           <InputGroup>
             <Input
               width={"full"}
               variant="flushed"
-              placeholder="Enter your username"
-              value={usernameHolder}
-              onChange={(e) => checkUsername(e)}
+              placeholder="Enter your referal code"
+              value={referalHolder}
+              onChange={(e) => checkReferal(e)}
             />
             <InputRightElement>
               <CheckIcon
                 color={"green"}
-                display={validUsername ? "block" : "none"}
+                display={validReferal ? "block" : "none"}
               />
               <CloseIcon
                 color={"red"}
-                display={validUsername ? "none" : "block"}
+                display={validReferal ? "none" : "block"}
               />
             </InputRightElement>
           </InputGroup>
         </Flex>
 
-        <Flex flexDir={"column"} gap={"10px"}>
-          <Text fontWeight={"bold"}> Password </Text>
-          <InputGroup>
-            <Input
-              type="password"
-              width={"full"}
-              variant="flushed"
-              placeholder="Enter your password"
-              value={passwordHolder}
-              onChange={(e) => checkPassword(e)}
-            />
-            <InputRightElement>
-              <CheckIcon
-                color={"green"}
-                display={validPassword ? "block" : "none"}
-              />
-              <CloseIcon
-                color={"red"}
-                display={validPassword ? "none" : "block"}
-              />
-            </InputRightElement>
-          </InputGroup>
-        </Flex>
 
         <Wrap spacing="20px" flexDir={"row"} justify={"center"}>
           <WrapItem>
@@ -122,7 +89,7 @@ export default function ReferencePage() {
               bgColor="red_orange"
               color="white"
               onClick={() => handleSubmit()}
-              disabled={!validUsername || !validPassword}
+              disabled={!validReferal}
             />
           </WrapItem>
         </Wrap>

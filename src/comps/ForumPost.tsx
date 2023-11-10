@@ -14,10 +14,10 @@ export const ForumPost = ({
   width?: string | number;
   headerBgColor?: string;
   text: string;
-  date : string;
+  date: string;
   authorName: string;
   authorImage?: string;
-  post_id : string | number;
+  post_id: string | number;
 }) => {
   return (
     <Flex
@@ -43,7 +43,7 @@ export const ForumPost = ({
       </Flex>
 
       {/* Content */}
-      <Flex flexDir={"row"}>
+      <Flex flexDir={{ base: "column", md: "row" }} w={"full"}>
         {/* Author */}
         <Flex
           padding={"20px"}
@@ -56,7 +56,13 @@ export const ForumPost = ({
           <Text fontWeight={"bold"}> {`Author Name`} </Text>
         </Flex>
         {/* Post Content */}
-        <Flex padding={"20px"} border={"2px black solid"} borderLeft={"none"}>
+        <Flex
+          padding={"20px"}
+          border={"2px black solid"}
+          borderLeft={{ base: "2px black solid", md: "none" }}
+          borderTop = {{base: "none", md: "2px black solid"}}
+          w={"full"}
+        >
           <Text whiteSpace={"pre-line"} textAlign={"justify"}>
             {text}
           </Text>

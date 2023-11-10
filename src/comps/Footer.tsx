@@ -25,7 +25,7 @@ export const Footer = () => {
         alignItems={"center"}
         color={"white"}
         fontWeight={"bold"}
-        fontSize={"20px"}
+        fontSize={{base: "16px", md:"20px"}}
         gap={"3vw"}
       >
         <Link to="/">
@@ -53,6 +53,8 @@ export const Footer = () => {
         fontWeight={"bold"}
         color={"black_matte"}
         textAlign={"center"}
+        fontSize={{base: "12px", md:"16px"}}
+        px={"20px"}
       >
         © Powered by Kelompok 8 <br />
         IF3110 - Pengembangan Aplikasi Berbasis Web

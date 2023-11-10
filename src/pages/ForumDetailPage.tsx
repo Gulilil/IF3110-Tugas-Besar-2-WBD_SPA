@@ -24,7 +24,7 @@ export default function ForumDetailPage() {
     >
       <Text fontWeight={"bold"} fontSize={"24"}>
         {" "}
-        {`ForumDetailPage wth ID : ${id}`}{" "}
+        {`ForumDetailPage with ID : ${id}`}{" "}
       </Text>
 
       {/* Main Content */}

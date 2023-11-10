@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { HiOutlineLogout, HiOutlineUserCircle } from "react-icons/hi";
 import PopupWithBlackOverlay from "./PopupWithBlackOverlay";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { Sidebar } from "./Sidebar";
 
-const NavbarLevelHeight = "50px";
+const NAVBAR_LEVEL_HEIGHT = "50px";
 
 const NavbarButtons = ({
   children,
@@ -17,7 +19,7 @@ const NavbarButtons = ({
   return (
     <Flex
       cursor={"pointer"}
-      minHeight={NavbarLevelHeight}
+      minHeight={NAVBAR_LEVEL_HEIGHT}
       justifyContent={"center"}
       alignItems={"center"}
       fontWeight={"bold"}
@@ -41,8 +43,9 @@ const NavbarButtons = ({
 export const Navbar = () => {
   const [navbarPos, setNavbarPos] = useState(0);
   const [logoutPopUp, setLogoutPopup] = useState(false);
+  const [sideBar, setSideBar] = useState(false);
   const location = useLocation();
-  const parentPath = location.pathname.split('/')[1];
+  const parentPath = location.pathname.split("/")[1];
 
   useEffect(() => {
     let prevScrollPosY = window.scrollY;
@@ -62,7 +65,12 @@ export const Navbar = () => {
     };
   });
 
-  if (parentPath === "signup" || parentPath === "login" || parentPath === "reference") return null;
+  if (
+    parentPath === "signup" ||
+    parentPath === "login" ||
+    parentPath === "reference"
+  )
+    return null;
 
   return (
     <Flex
@@ -81,10 +89,14 @@ export const Navbar = () => {
         backgroundColor={"black_matte"}
         color={"red_orange"}
         fontWeight={"bold"}
-        fontSize={"24px"}
+        fontSize={{ base: "16px", md: "24px" }}
         justifyContent={"center"}
         alignItems={"center"}
         paddingY={"10px"}
+        position={"relative"}
+        height={NAVBAR_LEVEL_HEIGHT}
+        borderBottomLeftRadius={{ base: "20px", md: "0px" }}
+        borderBottomRightRadius={{ base: "20px", md: "0px" }}
       >
         <Link to="/">
           <Text cursor={"pointer"} _hover={{ color: "white" }}>
@@ -92,16 +104,27 @@ export const Navbar = () => {
             InfoAnimeMasseForum{" "}
           </Text>
         </Link>
+
+        <HamburgerIcon
+          onClick={() => setSideBar(true)}
+          boxSize={"20px"}
+          display={{ base: "block", md: "none" }}
+          position={"absolute"}
+          right={"5vw"}
+          border={"2px solid"}
+          cursor={"pointer"}
+        />
       </Flex>
 
       {/* Second Navbar */}
       <Flex
+        display={{ base: "none", md: "flex" }}
         justifyContent={"space-between"}
         backgroundColor={"red_orange"}
         py={"10px"}
         px={"10vw"}
         color={"white"}
-        height={NavbarLevelHeight}
+        height={NAVBAR_LEVEL_HEIGHT}
         borderBottomRightRadius={"20px"}
         borderBottomLeftRadius={"20px"}
       >
@@ -131,6 +154,10 @@ export const Navbar = () => {
         </Flex>
       </Flex>
 
+      {/* Sidebar */}
+      <Sidebar open={sideBar} setClose={() => setSideBar(false)} setLogout={() => setLogoutPopup(true)} />
+
+      {/* Logout Confirmation */}
       <PopupWithBlackOverlay
         open={logoutPopUp}
         setClose={() => setLogoutPopup(false)}
@@ -169,7 +196,7 @@ export const Navbar = () => {
               <Text> No </Text>
             </Flex>
 
-            <Link to='/login'>
+            <Link to="/login">
               <Flex
                 cursor={"pointer"}
                 px="20px"

@@ -23,8 +23,8 @@ export default function ProfilePage() {
   const [validPassword, setValidPassword] = useState(false);
 
   const handleEditSubmit = () => {
-
-  }
+    setEditPopup(false);
+  };
 
   const checkUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsernameHolder(e.target.value);
@@ -43,50 +43,76 @@ export default function ProfilePage() {
       setValidPassword(false);
     }
   };
-  
 
   return (
     <Flex
-      flexDir={"row"}
+      flexDir={{ base: "column", md: "row" }}
       justifyContent={"center"}
       alignItems={"center"}
       gap={"32px"}
       border={"2px solid black"}
       py={"30px"}
       px={"50px"}
+      my={"20px"}
     >
       <ImageComps
         width={PROFILE_PIC_SIZE}
         height={PROFILE_PIC_SIZE}
         rounded="full"
       />
-      <Box backgroundColor={"black_matte"} minH={"250px"} minW={"3px"} />
-      <Flex flexDir={"column"} gap="10px">
+
+      <Box
+        backgroundColor={"black_matte"}
+        minH={{ base: "3px", md: "250px" }}
+        minW={{base: "full", md:"3px"}}
+      />
+
+      <Flex flexDir={"column"} gap="10px" justifyContent={{base: 'center', md: "start"}} textAlign={{base:'center', md:"left"}}>
         <Text fontSize={"24px"} fontWeight={"bold"}>
           {" "}
           {`Username`}{" "}
         </Text>
-        <Text> {`User ID : ..`}</Text>
+        <Text> {`User ID: ..`}</Text>
 
-        <Text> {`Points : `}</Text>
+        <Text> {`Points: `}</Text>
+
+        <Text> {`Follower Counts: `}</Text>
         <ButtonComps
           text="Edit Profile"
           bgColor="blue_cobalt"
           color="white"
           onClick={() => setEditPopup(true)}
         />
+
+        {/* <ButtonComps
+          text="Follow"
+          bgColor="blue_cobalt"
+          color="white"
+          onClick={() => setEditPopup(true)}
+        />
+
+        <ButtonComps
+          text="Unfollow"
+          bgColor="yellow_golden"
+          color="white"
+          onClick={() => setEditPopup(true)}
+        /> */}
+
         <Link to="/reference">
           <ButtonComps text="Link Account" bgColor="red_orange" color="white" />
         </Link>
       </Flex>
 
-
-
       <PopupWithBlackOverlay
         open={editPopup}
         setClose={() => setEditPopup(false)}
       >
-        <Flex flexDir={"column"} backgroundColor={"white"} padding={"20px"} gap={"20px"}>
+        <Flex
+          flexDir={"column"}
+          backgroundColor={"white"}
+          padding={"20px"}
+          gap={"20px"}
+        >
           <Text mx={"auto"} fontWeight={"bold"} fontSize={"24px"}>
             {" "}
             Edit Profile{" "}
