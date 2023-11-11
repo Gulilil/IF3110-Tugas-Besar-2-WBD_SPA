@@ -7,17 +7,19 @@ export const PostForm = ({
   open,
   setClose,
   isForum,
-  initialTitle,
   initialContent,
 }: {
   open: boolean;
   setClose: () => void;
   isForum: boolean;
-  initialTitle?: string;
   initialContent?: string;
 }) => {
   const [titleHolder, setTitleHolder] = useState("");
-  const [contentHolder, setContentHolder] = useState("");
+  const [contentHolder, setContentHolder] = useState(initialContent? initialContent : "");
+
+  const handleSubmit = () => {
+    console.log("clicked");
+  };
 
   return (
     <PopupWithBlackOverlay open={open} setClose={setClose}>
@@ -33,11 +35,16 @@ export const PostForm = ({
         <Text fontWeight={"bold"} textAlign={"center"}>
           {isForum
             ? "Add a New Forum"
-            : initialContent || initialTitle
+            : initialContent 
             ? "Edit a Reply"
             : "Add a New Reply"}
         </Text>
-        <Flex flexDir={"column"} gap={"10px"}>
+
+        <Flex
+          flexDir={"column"}
+          gap={"10px"}
+          display={isForum ? "flex" : "none"}
+        >
           <Text fontWeight={"bold"}> Title </Text>
           <Input
             placeholder="Type the topic title..."
@@ -50,14 +57,14 @@ export const PostForm = ({
           <Text fontWeight={"bold"}> Content </Text>
           <Textarea
             placeholder="Type your topic to be discussed..."
+            value={contentHolder}
             fontWeight={600}
-            maxHeight={"200px"}
-            height={"24px"}
+            height={"200px"}
             resize={"none"}
             py={3}
             borderWidth={"2.5px"}
             borderRadius={"10px"}
-            overflowY="hidden"
+            overflowY="auto"
             onChange={(e) => setContentHolder(e.target.value)}
             sx={{
               "::-webkit-scrollbar": {
@@ -83,7 +90,9 @@ export const PostForm = ({
           text="Add Forum"
           bgColor="red_orange"
           color="white"
-          onClick={() => {}}
+          onClick={() => {
+            handleSubmit();
+          }}
           disabled={
             isForum
               ? titleHolder.length === 0 || contentHolder.length === 0

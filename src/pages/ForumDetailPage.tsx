@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import { useParams } from "react-router-dom";
 import { Flex, Text } from "@chakra-ui/react";
 import ErrorPage from "./ErrorPage";
 import { ForumPost } from "../comps/ForumPost";
 import { PostData } from "../dummy/AllData";
 import { ButtonComps } from "../comps/ButtonComps";
+import { PostForm } from "../comps/PostForm";
 
 export default function ForumDetailPage() {
   const id = useParams().id;
-  console.log(id);
+
+  const [newReplyPopup, setNewReplyPopup]= useState(false);
 
   // if (!id not found) {
   //   return (<ErrorPage/>)
@@ -44,7 +46,7 @@ export default function ForumDetailPage() {
       })}
  
       <Flex flexDir={"row"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"30px"} >
-        <ButtonComps text="New Reply" bgColor="red_orange" color="white" onClick={() => {}}/>
+        <ButtonComps text="New Reply" bgColor="red_orange" color="white" onClick={() => {setNewReplyPopup(true)}}/>
         <Flex w={"full"} h={"2px"} bgColor={"#787878"} />
       </Flex>
 
@@ -63,6 +65,9 @@ export default function ForumDetailPage() {
           );
         }
       })}
-    </Flex>
+
+      {/* New Reply Popup */}
+      <PostForm open={newReplyPopup} setClose={() => setNewReplyPopup(false)} isForum={false}/>
+    </Flex>    
   );
 }

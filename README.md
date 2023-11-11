@@ -31,18 +31,20 @@ Here are the packages used in the program
 | ChakraUI | [ChakraUI](https://chakra-ui.com/getting-started) |
 | React-router-dom | [React-router-dom](https://www.npmjs.com/package/react-router-dom) |
 | React-icons | [React-icons](https://react-icons.github.io/react-icons/) |
+| React-slick | [React-slick](https://www.npmjs.com/package/react-slick) |
 
 ## **Installation Guide**
 
 
 ## **Execution Guide**
 
+
 ## **Implementation Screenshots**
 
 
 ## **Workload Distribution**
-| Name                     | Student ID | Client-side | Server-side |
-|--------------------------|------------|-------------|-------------|
+| Name                     | Student ID | Fungsionalitas | 
+|--------------------------|------------|-------------|
 | Irfan                    | 10023176   |  |  |
 | Bagas Aryo Seto          | 13521081   |  |  |
 | Juan Christopher Santoso | 13521116   |  |  |

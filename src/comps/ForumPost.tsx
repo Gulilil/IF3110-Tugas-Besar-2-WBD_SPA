@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import { ImageComps } from "./ImageComps";
+import { PostForm } from "./PostForm";
+import { ButtonComps } from "./ButtonComps";
 
 export const ForumPost = ({
   width,
@@ -19,6 +21,7 @@ export const ForumPost = ({
   authorImage?: string;
   post_id: string | number;
 }) => {
+  const [editReplyPopup, setEditReplyPopup] = useState(false);
   return (
     <Flex
       flexDir={"column"}
@@ -60,14 +63,31 @@ export const ForumPost = ({
           padding={"20px"}
           border={"2px black solid"}
           borderLeft={{ base: "2px black solid", md: "none" }}
-          borderTop = {{base: "none", md: "2px black solid"}}
+          borderTop={{ base: "none", md: "2px black solid" }}
           w={"full"}
+          flexDir={"column"}
+          gap={"20px"}
         >
           <Text whiteSpace={"pre-line"} textAlign={"justify"}>
             {text}
           </Text>
+          <ButtonComps
+            onClick={() => setEditReplyPopup(true)}
+            text="Edit"
+            bgColor="yellow_golden"
+            color="white"
+            width={"150px"}
+          />
         </Flex>
       </Flex>
+
+      {/* Edit Popup */}
+      <PostForm
+        open={editReplyPopup}
+        setClose={() => setEditReplyPopup(false)}
+        isForum={false}
+        initialContent={text}
+      />
     </Flex>
   );
 };

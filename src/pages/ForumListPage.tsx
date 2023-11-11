@@ -26,7 +26,7 @@ export default function ForumListPage() {
   return (
     <Flex
       flexDir={"column"}
-      justifyContent={"center"}
+      justifyContent={"start"}
       alignItems={"center"}
       w={"90%"}
       py={"20px"}
