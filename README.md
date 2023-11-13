@@ -31,7 +31,8 @@ Here are the packages used in the program
 | ChakraUI | [ChakraUI](https://chakra-ui.com/getting-started) |
 | React-router-dom | [React-router-dom](https://www.npmjs.com/package/react-router-dom) |
 | React-icons | [React-icons](https://react-icons.github.io/react-icons/) |
-| React-slick | [React-slick](https://www.npmjs.com/package/react-slick) |
+| React-alice-carousel | [React-alice-carousel](https://github.com/maxmarinich/react-alice-carousel) |
+
 
 ## **Installation Guide**
 
