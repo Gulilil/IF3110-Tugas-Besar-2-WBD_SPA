@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import { SliderHero } from "../comps/SliderHero";
 

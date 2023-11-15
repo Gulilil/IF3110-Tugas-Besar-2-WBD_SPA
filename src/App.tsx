@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 import HomePage from "./pages/HomePage";
@@ -11,8 +11,55 @@ import ForumListPage from "./pages/ForumListPage";
 import ForumDetailPage from "./pages/ForumDetailPage";
 import { Footer } from "./comps/Footer";
 import ProfilePage from "./pages/ProfilePage";
+import { REST_URL } from "./constant/constant";
+import NoAuthenticationPage from "./pages/NoAuthenticationPage";
 
 function App() {
+  const [authStatus, setAuthStatus] = useState(false);
+
+  const checkAuth = async () => {
+    alert(localStorage.getItem("token"))
+    const response = await fetch(REST_URL + "/user/check", {
+      headers: {
+        Authorization: localStorage.getItem("token") ?? "",
+      },
+    });
+
+    if (!response.ok) {
+      setAuthStatus(false);
+    } else {
+      setAuthStatus(true);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  if (!authStatus) {
+    return (
+      <Flex
+        maxW={"2560px"}
+        minH={"100vh"}
+        w={"full"}
+        flexDir={"column"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        mx={"auto"}
+        backgroundColor={"light_gray"}
+      >
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/*" element={<NoAuthenticationPage />} />
+        </Routes>
+        <Footer />
+      </Flex>
+    );
+  }
+
   return (
     <Flex
       maxW={"2560px"}
@@ -30,12 +77,12 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/reference" element={<ReferencePage />} />
-        <Route path="/profile" element={<ProfilePage/>} />
-        <Route path='/forum' element={<ForumListPage/>} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/forum" element={<ForumListPage />} />
         <Route path="/forum/:id" element={<ForumDetailPage />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </Flex>
   );
 }

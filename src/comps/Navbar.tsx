@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { HiOutlineLogout, HiOutlineUserCircle } from "react-icons/hi";
@@ -41,11 +41,18 @@ const NavbarButtons = ({
 };
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   const [navbarPos, setNavbarPos] = useState(0);
   const [logoutPopUp, setLogoutPopup] = useState(false);
   const [sideBar, setSideBar] = useState(false);
   const location = useLocation();
   const parentPath = location.pathname.split("/")[1];
+
+  const handleLogout = () => {
+    setLogoutPopup(false);
+    localStorage.removeItem("token");
+    navigate('/login');
+  }
 
   useEffect(() => {
     let prevScrollPosY = window.scrollY;
@@ -155,7 +162,11 @@ export const Navbar = () => {
       </Flex>
 
       {/* Sidebar */}
-      <Sidebar open={sideBar} setClose={() => setSideBar(false)} setLogout={() => setLogoutPopup(true)} />
+      <Sidebar
+        open={sideBar}
+        setClose={() => setSideBar(false)}
+        setLogout={() => setLogoutPopup(true)}
+      />
 
       {/* Logout Confirmation */}
       <PopupWithBlackOverlay
@@ -196,27 +207,25 @@ export const Navbar = () => {
               <Text> No </Text>
             </Flex>
 
-            <Link to="/login">
-              <Flex
-                cursor={"pointer"}
-                px="20px"
-                py={"5px"}
-                backgroundColor={"#22d458"}
-                borderRadius={"5px"}
-                color={"white"}
-                fontWeight={"bold"}
-                transitionDuration={"0.1s"}
-                transitionTimingFunction={"ease-in-out"}
-                _hover={{
-                  opacity: "0.4",
-                  transitionDuration: "0.1s",
-                  transitionTimingFunction: "ease-in-out",
-                }}
-                onClick={() => setLogoutPopup(false)}
-              >
-                <Text> Yes </Text>
-              </Flex>
-            </Link>
+            <Flex
+              cursor={"pointer"}
+              px="20px"
+              py={"5px"}
+              backgroundColor={"#22d458"}
+              borderRadius={"5px"}
+              color={"white"}
+              fontWeight={"bold"}
+              transitionDuration={"0.1s"}
+              transitionTimingFunction={"ease-in-out"}
+              _hover={{
+                opacity: "0.4",
+                transitionDuration: "0.1s",
+                transitionTimingFunction: "ease-in-out",
+              }}
+              onClick={() => handleLogout()}
+            >
+              <Text> Yes </Text>
+            </Flex>
           </Flex>
         </Flex>
       </PopupWithBlackOverlay>

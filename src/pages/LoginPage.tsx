@@ -8,17 +8,39 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { ButtonComps } from "../comps/ButtonComps";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { REST_URL } from "../constant/constant";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [usernameHolder, setUsernameHolder] = useState("");
   const [passwordHolder, setPasswordHolder] = useState("");
   const [validUsername, setValidUsername] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
 
-  const handleSubmit = () => {
-    console.log("login click");
+  const handleSubmit = async () => {
+    const requestBody = {
+      username: usernameHolder,
+      password: passwordHolder,
+    };
+
+    const response = await fetch(REST_URL + "/client/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.message);
+    } else {
+      localStorage.setItem("token", `Bearer ${data.token}`);
+      navigate("/");
+    }
   };
 
   const checkUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
