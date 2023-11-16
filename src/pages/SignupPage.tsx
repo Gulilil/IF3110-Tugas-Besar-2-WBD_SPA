@@ -47,27 +47,27 @@ export default function SignupPage() {
     }
   };
 
-  const checkEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailHolder(e.target.value);
-    if (e.target.value.toLowerCase().match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){
+  const checkEmail = (text : string) => {
+    setEmailHolder(text);
+    if (text && text.toLowerCase().match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){
       setValidEmail(true);
     } else {
       setValidEmail(false);
     }
   }
 
-  const checkUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsernameHolder(e.target.value);
-    if (e.target.value.length >= 8) {
+  const checkUsername = (text : string) => {
+    setUsernameHolder(text);
+    if (text && text.length >= 8) {
       setValidUsername(true);
     } else {
       setValidUsername(false);
     }
   };
 
-  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordHolder(e.target.value);
-    if (e.target.value.length > 0) {
+  const checkPassword = (text : string) => {
+    setPasswordHolder(text);
+    if (text && text.length > 0) {
       setValidPassword(true);
     } else {
       setValidPassword(false);
@@ -108,7 +108,7 @@ export default function SignupPage() {
                 variant="flushed"
                 placeholder="Enter your email"
                 value={emailHolder}
-                onChange={(e) => checkEmail(e)}
+                onChange={(e) => checkEmail(e.target.value)}
               />
               <InputRightElement>
                 <CheckIcon
@@ -131,7 +131,7 @@ export default function SignupPage() {
                 variant="flushed"
                 placeholder="Enter your username"
                 value={usernameHolder}
-                onChange={(e) => checkUsername(e)}
+                onChange={(e) => checkUsername(e.target.value)}
               />
               <InputRightElement>
                 <CheckIcon
@@ -155,7 +155,7 @@ export default function SignupPage() {
                 variant="flushed"
                 placeholder="Enter your password"
                 value={passwordHolder}
-                onChange={(e) => checkPassword(e)}
+                onChange={(e) => checkPassword(e.target.value)}
               />
               <InputRightElement>
                 <CheckIcon

@@ -12,10 +12,25 @@ import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { ImageComps } from "../comps/ImageComps";
 import { ButtonComps } from "../comps/ButtonComps";
 import PopupWithBlackOverlay from "../comps/PopupWithBlackOverlay";
-import { Link } from "react-router-dom";
+import { Link, useFetcher } from "react-router-dom";
 import { REST_URL } from "../constant/constant";
 
 const PROFILE_PIC_SIZE = "200px";
+
+interface UserData {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  image: string;
+  linked: boolean;
+  follower_count: number;
+}
+
+interface ApiResponse {
+  message: string;
+  data: UserData;
+}
 
 export default function ProfilePage() {
   const [editPopup, setEditPopup] = useState(false);
@@ -46,226 +61,301 @@ export default function ProfilePage() {
 
   };
 
-  useEffect(() => {
-    getReferenceData();
-  },[])
+  // useEffect(() => {
+  //   getReferenceData();
+  // },[])
+  
+  const [apiResponse, setApiResponse] = useState<ApiResponse>();
+
+  const getApiResponse = async () => {
+    try {
+      const response = await fetch(`${REST_URL}/client/user`, {
+        method: "GET",
+        headers: {
+          "Authorization": localStorage.getItem("token") ?? "",
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const apiResponse = await response.json();
+      const userData = apiResponse?.data; 
+
+      if (userData){
+        checkEmail(userData.email);
+        checkUsername(userData.username);
+        checkPassword(userData.password);
+        setImageHolder(userData.image);
+      }
+      if (!response.ok) {
+        alert(apiResponse.message);
+      } else {
+        setApiResponse(apiResponse as ApiResponse);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
   
 
+  useEffect(() => {
+    getApiResponse();
+  }, [])
+
   const handleEditSubmit = () => {
+    const editClient = async () => {
+      try {
+        const response = await fetch(`${REST_URL}/client`, {
+          method: "PUT",
+          headers: {
+            "Authorization": localStorage.getItem("token") ?? "",
+            "Content-Type": "application/json",
+          },
+          body : JSON.stringify({
+            email : emailHolder,
+            username: usernameHolder,
+            password: passwordHolder, 
+            image: imageHolder,
+          })
+        });
+
+        const data = await response.json();
+
+      } catch (error){
+        console.error("Error editing data: ", error);
+      }
+    }
+
+    editClient();
     setEditPopup(false);
+    window.location.reload();
   };
 
-  const checkEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailHolder(e.target.value);
-    if (e.target.value.toLowerCase().match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){
+  const checkEmail = (text : string) => {
+    setEmailHolder(text);
+    if (text && text.toLowerCase().match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){
       setValidEmail(true);
     } else {
       setValidEmail(false);
     }
   }
 
-  const checkUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsernameHolder(e.target.value);
-    if (e.target.value.length >= 8) {
+  const checkUsername = (text : string) => {
+    setUsernameHolder(text);
+    if (text && text.length >= 8) {
       setValidUsername(true);
     } else {
       setValidUsername(false);
     }
   };
 
-  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordHolder(e.target.value);
-    if (e.target.value.length > 0) {
+  const checkPassword = (text : string) => {
+    setPasswordHolder(text);
+    if (text && text.length > 0) {
       setValidPassword(true);
     } else {
       setValidPassword(false);
     }
   };
 
+  const userData = apiResponse?.data;
+
   return (
     <Flex
-      flexDir={{ base: "column", md: "row" }}
-      justifyContent={"center"}
-      alignItems={"center"}
-      gap={"32px"}
-      border={"2px solid black"}
-      py={"30px"}
-      px={"50px"}
-      my={"20px"}
-    >
-      <ImageComps
-        width={PROFILE_PIC_SIZE}
-        height={PROFILE_PIC_SIZE}
-        rounded="full"
-      />
-
-      <Box
-        backgroundColor={"black_matte"}
-        minH={{ base: "3px", md: "250px" }}
-        minW={{ base: "full", md: "3px" }}
-      />
-
-      <Flex
-        flexDir={"column"}
-        gap="10px"
-        justifyContent={{ base: "center", md: "start" }}
-        textAlign={{ base: "center", md: "left" }}
+        flexDir={{ base: "column", md: "row" }}
+        justifyContent={"center"}
+        alignItems={"center"}
+        gap={"32px"}
+        border={"2px solid black"}
+        py={"30px"}
+        px={"50px"}
+        my={"20px"}
       >
-        <Text fontSize={"24px"} fontWeight={"bold"}>
-          {" "}
-          {`Username`}{" "}
-        </Text>
-        <Text> {`User ID: ..`}</Text>
-
-        <Text> {`Points: `}</Text>
-
-        <Text> {`Follower Counts: `}</Text>
-        <ButtonComps
-          text="Edit Profile"
-          bgColor="blue_cobalt"
-          color="white"
-          onClick={() => setEditPopup(true)}
+        <ImageComps
+          width={PROFILE_PIC_SIZE}
+          height={PROFILE_PIC_SIZE}
+          rounded="full"
+          url={userData ? userData.image : undefined}
         />
 
-        {/* <ButtonComps
-          text="Follow"
-          bgColor="blue_cobalt"
-          color="white"
-          onClick={() => {}}
-        /> */}
+        <Box
+          backgroundColor={"black_matte"}
+          minH={{ base: "3px", md: "250px" }}
+          minW={{ base: "full", md: "3px" }}
+        />
 
-        {/* <ButtonComps
-          text="Unfollow"
-          bgColor="yellow_golden"
-          color="white"
-          onClick={() => {}}
-        /> */}
-
-
-        <Link to="/reference">
-          <ButtonComps text="Link Account" bgColor="red_orange" color="white" />
-        </Link>
-        {/* <ButtonComps
-          text="Unlink Account"
-          bgColor="yellow_golden"
-          color="white"
-          onClick={() => {}}
-        /> */}
-      </Flex>
-
-      <PopupWithBlackOverlay
-        open={editPopup}
-        setClose={() => setEditPopup(false)}
-      >
         <Flex
           flexDir={"column"}
           backgroundColor={"white"}
-          padding={"20px"}
+          py={"20px"}
+          px={"60px"}
           gap={"20px"}
           maxW={{base: "90%", md:"70%"}}
           mx={"auto"}
+          textAlign={{base:"center", md:"left"}}
         >
-          <Text mx={"auto"} fontWeight={"bold"} fontSize={"24px"}>
+          <Text fontSize={"24px"} fontWeight={"bold"}>
             {" "}
-            Edit Profile{" "}
+            {userData ? userData.username : `Username`}{" "}
           </Text>
-          <Wrap mx={"auto"} spacing={"20px"} justify={"space-evenly"}>
-            <Flex flexDir={"column"} gap={"10px"}>
-              <Text fontWeight={"bold"}> Email </Text>
-              <InputGroup>
-                <Input
-                  width={"full"}
-                  variant="flushed"
-                  placeholder="Enter your email"
-                  value={emailHolder}
-                  onChange={(e) => checkEmail(e)}
-                />
-                <InputRightElement>
-                  <CheckIcon
-                    color={"green"}
-                    display={validEmail ? "block" : "none"}
-                  />
-                  <CloseIcon
-                    color={"red"}
-                    display={validEmail ? "none" : "block"}
-                  />
-                </InputRightElement>
-              </InputGroup>
-            </Flex>
 
-            <Flex flexDir={"column"} gap={"10px"}>
-              <Text fontWeight={"bold"}> Username </Text>
-              <InputGroup>
-                <Input
-                  width={"full"}
-                  variant="flushed"
-                  placeholder="Enter your username"
-                  value={usernameHolder}
-                  onChange={(e) => checkUsername(e)}
-                />
-                <InputRightElement>
-                  <CheckIcon
-                    color={"green"}
-                    display={validUsername ? "block" : "none"}
-                  />
-                  <CloseIcon
-                    color={"red"}
-                    display={validUsername ? "none" : "block"}
-                  />
-                </InputRightElement>
-              </InputGroup>
-            </Flex>
+          <Text fontWeight={"bold"}>
+            {" "}
+            {userData ? userData.email : `Username`}{" "}
+          </Text>
 
-            <Flex flexDir={"column"} gap={"10px"}>
-              <Text fontWeight={"bold"}> Password </Text>
-              <InputGroup>
-                <Input
-                  type="password"
-                  width={"full"}
-                  variant="flushed"
-                  placeholder="Enter your password"
-                  value={passwordHolder}
-                  onChange={(e) => checkPassword(e)}
-                />
-                <InputRightElement>
-                  <CheckIcon
-                    color={"green"}
-                    display={validPassword ? "block" : "none"}
-                  />
-                  <CloseIcon
-                    color={"red"}
-                    display={validPassword ? "none" : "block"}
-                  />
-                </InputRightElement>
-              </InputGroup>
-            </Flex>
+          <Text> {userData ? `User ID: ` + userData.id.toString() : `User ID: -`}</Text>
 
-            <Flex flexDir={"column"} gap={"10px"}>
-              <Text fontWeight={"bold"}> Image </Text>
-              <InputGroup>
-                <Input
-                  width={"full"}
-                  variant="flushed"
-                  placeholder="Enter your email"
-                  value={imageHolder}
-                  onChange={(e) => setImageHolder(e.target.value)}
-                />
-              </InputGroup>
-            </Flex>
-          </Wrap>
+          <Text> {`Points: `}</Text>
 
-          <Flex justifyContent={"center"} alignItems={"center"}>
-            <ButtonComps
-              text="Edit Profile"
-              bgColor="yellow_golden"
-              width={"200px"}
-              color="white"
-              onClick={() => handleEditSubmit()}
-              disabled={!validPassword || !validUsername}
-            />
-          </Flex>
+          <Text> {userData ? `Follower Counts: ` + userData.follower_count.toString() : `Follower Counts: -`}</Text>
+          <ButtonComps
+            text="Edit Profile"
+            bgColor="blue_cobalt"
+            color="white"
+            onClick={() => setEditPopup(true)}
+          />
+
+          {/* <ButtonComps
+            text="Follow"
+            bgColor="blue_cobalt"
+            color="white"
+            onClick={() => {}}
+          /> */}
+
+          {/* <ButtonComps
+            text="Unfollow"
+            bgColor="yellow_golden"
+            color="white"
+            onClick={() => {}}
+          /> */}
+
+
+          <Link to="/reference">
+            <ButtonComps text="Link Account" bgColor="red_orange" color="white" />
+          </Link>
+          {/* <ButtonComps
+            text="Unlink Account"
+            bgColor="yellow_golden"
+            color="white"
+            onClick={() => {}}
+          /> */}
         </Flex>
-      </PopupWithBlackOverlay>
+
+        <PopupWithBlackOverlay
+          open={editPopup}
+          setClose={() => setEditPopup(false)}
+        >
+          <Flex
+            flexDir={"column"}
+            backgroundColor={"white"}
+            p={"20px"}
+            gap={"20px"}
+            maxW={{base: "90%", md: "70%"}}
+            mx={"auto"}
+            borderRadius={"20px"}
+          >
+            <Text mx={"auto"} fontWeight={"bold"} fontSize={"24px"}>
+              {" "}
+              Edit Profile{" "}
+            </Text>
+            <Wrap spacing={"20px"} justify={{base:"center", md: "space-between"}} px={"30px"}>
+              <Flex flexDir={"column"} gap={"10px"}>
+                <Text fontWeight={"bold"}> Email </Text>
+                <InputGroup>
+                  <Input
+                    width={"full"}
+                    variant="flushed"
+                    placeholder="Enter your email"
+                    value={emailHolder}
+                    onChange={(e) => checkEmail(e.target.value)}
+                  />
+                  <InputRightElement>
+                    <CheckIcon
+                      color={"green"}
+                      display={validEmail ? "block" : "none"}
+                    />
+                    <CloseIcon
+                      color={"red"}
+                      display={validEmail ? "none" : "block"}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </Flex>
+
+              <Flex flexDir={"column"} gap={"10px"}>
+                <Text fontWeight={"bold"}> Username </Text>
+                <InputGroup>
+                  <Input
+                    width={"full"}
+                    variant="flushed"
+                    placeholder="Enter your username"
+                    value={usernameHolder}
+                    onChange={(e) => checkUsername(e.target.value)}
+                  />
+                  <InputRightElement>
+                    <CheckIcon
+                      color={"green"}
+                      display={validUsername ? "block" : "none"}
+                    />
+                    <CloseIcon
+                      color={"red"}
+                      display={validUsername ? "none" : "block"}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </Flex>
+
+              <Flex flexDir={"column"} gap={"10px"}>
+                <Text fontWeight={"bold"}> Password </Text>
+                <InputGroup>
+                  <Input
+                    type="password"
+                    width={"full"}
+                    variant="flushed"
+                    placeholder="Enter your password"
+                    value={passwordHolder}
+                    onChange={(e) => checkPassword(e.target.value)}
+                  />
+                  <InputRightElement>
+                    <CheckIcon
+                      color={"green"}
+                      display={validPassword ? "block" : "none"}
+                    />
+                    <CloseIcon
+                      color={"red"}
+                      display={validPassword ? "none" : "block"}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </Flex>
+
+              <Flex flexDir={"column"} gap={"10px"}>
+                <Text fontWeight={"bold"}> Image </Text>
+                <InputGroup>
+                  <Input
+                    width={"full"}
+                    variant="flushed"
+                    placeholder="Enter your image"
+                    value={imageHolder}
+                    onChange={(e) => {setImageHolder(e.target.value)}}
+                  />
+                </InputGroup>
+              </Flex>
+            </Wrap>
+
+            <Flex justifyContent={"center"} alignItems={"center"}>
+              <ButtonComps
+                text="Edit Profile"
+                bgColor="yellow_golden"
+                width={"200px"}
+                color="white"
+                onClick={() => handleEditSubmit()}
+                disabled={!validPassword || !validUsername}
+              />
+            </Flex>
+          </Flex>
+        </PopupWithBlackOverlay>
     </Flex>
   );
+  
 }
