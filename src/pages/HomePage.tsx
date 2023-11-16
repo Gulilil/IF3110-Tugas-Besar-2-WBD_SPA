@@ -1,8 +1,27 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import { SliderHero } from "../comps/SliderHero";
+import { REST_URL } from "../constant/constant";
 
 export default function HomePage() {
+
+  const getAnimeData = async () => {
+    const response = await fetch(REST_URL+"/php/anime" ,{
+      method:"GET",
+    })
+
+    const data = await response.json();
+    if (!response.ok){
+      alert(data.message)
+    } else {
+      alert(data.message)
+    }
+  }
+
+  useEffect(() => {
+    getAnimeData();
+  },[])
+
   return (
     <Flex w={"full"} flexDir={"column"} py={"30px"}>
       <Text

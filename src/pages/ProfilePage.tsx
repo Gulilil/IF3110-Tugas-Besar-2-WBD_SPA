@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Flex,
   Box,
@@ -13,6 +13,7 @@ import { ImageComps } from "../comps/ImageComps";
 import { ButtonComps } from "../comps/ButtonComps";
 import PopupWithBlackOverlay from "../comps/PopupWithBlackOverlay";
 import { Link } from "react-router-dom";
+import { REST_URL } from "../constant/constant";
 
 const PROFILE_PIC_SIZE = "200px";
 
@@ -21,9 +22,34 @@ export default function ProfilePage() {
   const [usernameHolder, setUsernameHolder] = useState("");
   const [passwordHolder, setPasswordHolder] = useState("");
   const [emailHolder, setEmailHolder] = useState("");
+  const [imageHolder, setImageHolder] = useState("");
   const [validUsername, setValidUsername] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
+  
+
+  const getReferenceData = async () => {
+    const response = await fetch(REST_URL + "/soap", {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("token") ?? "",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data.message);
+    if (!response.ok){
+      alert(data.message);
+    } else {
+      alert(data.message);
+    }
+
+  };
+
+  useEffect(() => {
+    getReferenceData();
+  },[])
+  
 
   const handleEditSubmit = () => {
     setEditPopup(false);
@@ -136,12 +162,14 @@ export default function ProfilePage() {
           backgroundColor={"white"}
           padding={"20px"}
           gap={"20px"}
+          maxW={{base: "90%", md:"70%"}}
+          mx={"auto"}
         >
           <Text mx={"auto"} fontWeight={"bold"} fontSize={"24px"}>
             {" "}
             Edit Profile{" "}
           </Text>
-          <Wrap>
+          <Wrap mx={"auto"} spacing={"20px"} justify={"space-evenly"}>
             <Flex flexDir={"column"} gap={"10px"}>
               <Text fontWeight={"bold"}> Email </Text>
               <InputGroup>
@@ -149,17 +177,17 @@ export default function ProfilePage() {
                   width={"full"}
                   variant="flushed"
                   placeholder="Enter your email"
-                  value={usernameHolder}
-                  onChange={(e) => checkUsername(e)}
+                  value={emailHolder}
+                  onChange={(e) => checkEmail(e)}
                 />
                 <InputRightElement>
                   <CheckIcon
                     color={"green"}
-                    display={validUsername ? "block" : "none"}
+                    display={validEmail ? "block" : "none"}
                   />
                   <CloseIcon
                     color={"red"}
-                    display={validUsername ? "none" : "block"}
+                    display={validEmail ? "none" : "block"}
                   />
                 </InputRightElement>
               </InputGroup>
@@ -209,6 +237,19 @@ export default function ProfilePage() {
                     display={validPassword ? "none" : "block"}
                   />
                 </InputRightElement>
+              </InputGroup>
+            </Flex>
+
+            <Flex flexDir={"column"} gap={"10px"}>
+              <Text fontWeight={"bold"}> Image </Text>
+              <InputGroup>
+                <Input
+                  width={"full"}
+                  variant="flushed"
+                  placeholder="Enter your email"
+                  value={imageHolder}
+                  onChange={(e) => setImageHolder(e.target.value)}
+                />
               </InputGroup>
             </Flex>
           </Wrap>

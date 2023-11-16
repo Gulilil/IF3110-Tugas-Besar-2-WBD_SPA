@@ -1,9 +1,7 @@
-FROM node:17-alpine
+FROM node:18-alpine
 WORKDIR /app
-COPY package.json .
-COPY tsconfig.json .
-COPY src/ .
-COPY public/ .
+COPY public/ /app/public
+COPY src/ /app/src
+COPY package.json /app/
 RUN npm install
-COPY . .
-CMD npm start
+CMD ["npm", "start"]
