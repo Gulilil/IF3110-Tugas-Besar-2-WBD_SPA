@@ -1,6 +1,6 @@
 import React from "react";
 import { Flex, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ButtonComps } from "./ButtonComps";
 
 export const Sidebar = ({
@@ -12,6 +12,13 @@ export const Sidebar = ({
   setClose: () => void;
   setLogout: () => void;
 }) => {
+  const navigate = useNavigate();
+
+  const handleLogin = () =>{
+    setClose();
+    navigate("/login");
+  }
+
   return (
     <Flex>
       <Flex
@@ -77,7 +84,12 @@ export const Sidebar = ({
           </Link>
         </Flex>
 
-        <ButtonComps text="Logout" color="white" bgColor="red_orange" onClick={() => setLogout()}/>
+        {
+          localStorage.getItem('token') ?
+          <ButtonComps text="Logout" color="white" bgColor="red_orange" onClick={() => setLogout()}/>
+          :
+          <ButtonComps text="Login" color="white" bgColor="red_orange" onClick={() => handleLogin()}/>
+        }
       </Flex>
     </Flex>
   );

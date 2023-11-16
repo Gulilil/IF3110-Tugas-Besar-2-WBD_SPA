@@ -40,6 +40,7 @@ export default function LoginPage() {
     } else {
       localStorage.setItem("token", `Bearer ${data.token}`);
       navigate("/");
+      window.location.reload();
     }
   };
 
@@ -148,16 +149,25 @@ export default function LoginPage() {
         </Flex>
 
         <Flex
-          maxW={{ base: "95%", lg: "180px" }}
-          gap="10px"
-          flexDir={"column"}
-          justifyContent={"center"}
+          maxW={"95%"}
+          flexDir={{ base: "column", md: "row" }}
+          justifyContent={"space-between"}
           alignItems={"center"}
+          gap={{base:"10px", md:"30px"}}
         >
-          <Text textAlign={"center"}> Does not have an account yet? </Text>
-          <Link to="/signup">
-            <ButtonComps text="Signup" bgColor="blue_cobalt" color="white" />
-          </Link>
+          <Flex flexDir={"column"} justifyContent={"center"} alignItems={"center"} gap={"10px"}>
+            <Text textAlign={"center"}> Does not have an account yet? </Text>
+            <Link to="/signup">
+              <ButtonComps text="Signup" bgColor="blue_cobalt" color="white" />
+            </Link>
+          </Flex>
+
+          <Flex flexDir={"column"} justifyContent={"center"} alignItems={"center"} gap={"10px"}>
+            <Text textAlign={"center"}> Wanna stroll around? </Text>
+            <Link to="/">
+              <ButtonComps text="Back to Home" bgColor="red_orange" color="white" />
+            </Link>
+          </Flex>
         </Flex>
       </Flex>
     </FullHeightPageWithBackground>

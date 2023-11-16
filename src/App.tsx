@@ -18,8 +18,8 @@ function App() {
   const [authStatus, setAuthStatus] = useState(false);
 
   const checkAuth = async () => {
-    alert(localStorage.getItem("token"))
-    const response = await fetch(REST_URL + "/user/check", {
+    const response = await fetch(REST_URL + "/client/check", {
+      method: "GET",
       headers: {
         Authorization: localStorage.getItem("token") ?? "",
       },
@@ -32,9 +32,10 @@ function App() {
     }
   };
 
+
   useEffect(() => {
     checkAuth();
-  }, []);
+  });
 
   if (!authStatus) {
     return (

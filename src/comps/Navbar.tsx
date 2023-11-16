@@ -2,7 +2,11 @@ import React from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Flex, Text, Box } from "@chakra-ui/react";
-import { HiOutlineLogout, HiOutlineUserCircle } from "react-icons/hi";
+import {
+  HiOutlineLogout,
+  HiOutlineUserCircle,
+  HiOutlineLogin,
+} from "react-icons/hi";
 import PopupWithBlackOverlay from "./PopupWithBlackOverlay";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Sidebar } from "./Sidebar";
@@ -51,8 +55,9 @@ export const Navbar = () => {
   const handleLogout = () => {
     setLogoutPopup(false);
     localStorage.removeItem("token");
-    navigate('/login');
-  }
+    navigate("/login");
+    window.location.reload();
+  };
 
   useEffect(() => {
     let prevScrollPosY = window.scrollY;
@@ -146,19 +151,29 @@ export const Navbar = () => {
           </Link>
         </Flex>
 
-        <Flex justifyContent={"center"} alignItems={"center"} gap={"30px"}>
-          <Link to="/profile">
-            <NavbarButtons text="Profile">
-              <HiOutlineUserCircle size={"30px"} />
-            </NavbarButtons>
-          </Link>
+        {localStorage.getItem("token") ? (
+          <Flex justifyContent={"center"} alignItems={"center"} gap={"30px"}>
+            <Link to="/profile">
+              <NavbarButtons text="Profile">
+                <HiOutlineUserCircle size={"30px"} />
+              </NavbarButtons>
+            </Link>
 
-          <Box onClick={() => setLogoutPopup(true)}>
-            <NavbarButtons text="Logout">
-              <HiOutlineLogout size={"30px"} />
-            </NavbarButtons>
-          </Box>
-        </Flex>
+            <Box onClick={() => setLogoutPopup(true)}>
+              <NavbarButtons text="Logout">
+                <HiOutlineLogout size={"30px"} />
+              </NavbarButtons>
+            </Box>
+          </Flex>
+        ) : (
+          <Flex justifyContent={"center"} alignItems={"center"} gap={"30px"}>
+            <Link to="/login">
+              <NavbarButtons text="Login">
+                <HiOutlineLogin size={"30px"} />
+              </NavbarButtons>
+            </Link>
+          </Flex>
+        )}
       </Flex>
 
       {/* Sidebar */}
