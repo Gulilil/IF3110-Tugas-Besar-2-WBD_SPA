@@ -40,6 +40,7 @@ export default function ForumDetailPage() {
               date={data.created_at}
               authorName={"aa"}
               post_id={data.post_id}
+              authorId={1}
             />
           );
         }
@@ -61,6 +62,7 @@ export default function ForumDetailPage() {
               date={data.created_at}
               authorName={"aa"}
               post_id={data.post_id}
+              authorId={1}
             />
           );
         }

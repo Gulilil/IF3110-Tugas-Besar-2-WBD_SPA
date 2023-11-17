@@ -3,6 +3,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { ImageComps } from "./ImageComps";
 import { PostForm } from "./PostForm";
 import { ButtonComps } from "./ButtonComps";
+import { Link } from "react-router-dom";
 
 export const ForumPost = ({
   width,
@@ -10,6 +11,7 @@ export const ForumPost = ({
   text,
   date,
   authorName,
+  authorId,
   authorImage,
   post_id,
 }: {
@@ -18,6 +20,7 @@ export const ForumPost = ({
   text: string;
   date: string;
   authorName: string;
+  authorId: number;
   authorImage?: string;
   post_id: string | number;
 }) => {
@@ -56,7 +59,9 @@ export const ForumPost = ({
           gap={"10px"}
         >
           <ImageComps width={"150px"} height={"150px"} />
-          <Text fontWeight={"bold"}> {`Author Name`} </Text>
+          <Link to={`/client/${authorId}`}>
+            <Text fontWeight={"bold"} _hover={{color:"blue_cobalt"}}> {`Author Name`} </Text>
+          </Link>
         </Flex>
         {/* Post Content */}
         <Flex

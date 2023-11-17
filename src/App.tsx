@@ -13,6 +13,7 @@ import { Footer } from "./comps/Footer";
 import ProfilePage from "./pages/ProfilePage";
 import { REST_URL } from "./constant/constant";
 import NoAuthenticationPage from "./pages/NoAuthenticationPage";
+import ClientPage from "./pages/ClientPage";
 
 function App() {
   const [authStatus, setAuthStatus] = useState(false);
@@ -24,6 +25,8 @@ function App() {
         Authorization: localStorage.getItem("token") ?? "",
       },
     });
+
+    // alert(localStorage.getItem("token"))
 
     if (!response.ok) {
       setAuthStatus(false);
@@ -79,6 +82,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/reference" element={<ReferencePage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/client/:id" element={<ClientPage />} />
         <Route path="/forum" element={<ForumListPage />} />
         <Route path="/forum/:id" element={<ForumDetailPage />} />
         <Route path="/*" element={<ErrorPage />} />

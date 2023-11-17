@@ -9,7 +9,6 @@ export default function HomePage() {
     const response = await fetch(REST_URL+"/php/anime" ,{
       method:"GET",
     })
-
     const data = await response.json();
     if (!response.ok){
       alert(data.message)
@@ -18,9 +17,9 @@ export default function HomePage() {
     }
   }
 
-  useEffect(() => {
-    getAnimeData();
-  },[])
+  // useEffect(() => {
+  //   getAnimeData();
+  // },[])
 
   return (
     <Flex w={"full"} flexDir={"column"} py={"30px"}>
