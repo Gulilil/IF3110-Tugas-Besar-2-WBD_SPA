@@ -6,14 +6,13 @@
 * [Program Description](#program-description)
 * [Required Program](#required-program)
 * [Used Packages](#used-packages)
-* [Installation Guide](#installation-guide)
 * [Execution Guide](#execution-guide)
 * [Implementation Screenshots](#implementation-screenshots)
 * [Progress Report](#progress-report)
 * [Workload Distribution](#workload-distribution)
 
 ## **Program Description**
-**InfoAnimeMasse** is an web-based application that allows user to track and rate anime series. Users could search animes, add animes to their own list, also give ratings and reviews.
+**InfoAnimeMasseForum** is an web-based application that allows user to have a forum discussion regarding any topic that they want.
 
 ## **Program Requirement**
 Here are the requirements to run the program
@@ -34,19 +33,19 @@ Here are the packages used in the program
 | React-alice-carousel | [React-alice-carousel](https://github.com/maxmarinich/react-alice-carousel) |
 
 
-## **Installation Guide**
-
-
 ## **Execution Guide**
-
+```
+npm start
+```
 
 ## **Implementation Screenshots**
+Will be added later.
 
 
 ## **Workload Distribution**
-| Name                     | Student ID | Fungsionalitas | 
-|--------------------------|------------|-------------|
+| Name                     | Student ID | Fungsionalitas | Tampilan |
+|--------------------------|------------|-------------|--------------|
 | Irfan                    | 10023176   |  |  |
-| Bagas Aryo Seto          | 13521081   |  |  |
-| Juan Christopher Santoso | 13521116   |  |  |
+| Bagas Aryo Seto          | 13521081   | Forum List Integration, Forum Page Integration, Reply CRUD Integration |  |
+| Juan Christopher Santoso | 13521116   | Login and Register Integration, Follow and Unfollow Integration, Link and Unlink Integration  | All Pages and Components |
 
