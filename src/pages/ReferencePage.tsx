@@ -10,15 +10,41 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { ButtonComps } from "../comps/ButtonComps";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { REST_URL } from "../constant/constant";
 
 export default function ReferencePage() {
+  const navigate = useNavigate();
   const [referalHolder, setReferalHolder] = useState("");
   const [validReferal, setValidReferal] = useState(false);
 
-  const handleSubmit = () => {
-    console.log("clicked")
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(REST_URL+'/soap',{
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("token") ?? "",
+          "Content-Type": "application/json",
+        },
+        body : JSON.stringify({
+          referralCode : referalHolder
+        })
+      })
+
+      const data = await response.json();
+      if (!response.ok){
+        alert(data.message);
+      } else {
+        alert(data.message);
+        navigate("/profile");
+        window.location.reload();
+      }
+      
+
+    } catch (error) {
+      console.error("Error linking data", error);
+    }
   }
 
   const checkReferal = (e: React.ChangeEvent<HTMLInputElement>) => {

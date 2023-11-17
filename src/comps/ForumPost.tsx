@@ -3,6 +3,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { ImageComps } from "./ImageComps";
 import { PostForm } from "./PostForm";
 import { ButtonComps } from "./ButtonComps";
+import { Link } from "react-router-dom";
 
 export const ForumPost = ({
   width,
@@ -66,7 +67,9 @@ export const ForumPost = ({
             height={"150px"} 
             url={authorImage ? authorImage : undefined}
           />
-          <Text fontWeight={"bold"}> {authorName} </Text>
+          <Link to={`/client/${author_id}`}>
+            <Text fontWeight={"bold"} _hover={{color:"blue_cobalt"}}> {authorName} </Text>
+          </Link>
         </Flex>
         {/* Post Content */}
         <Flex

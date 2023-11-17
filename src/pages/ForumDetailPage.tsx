@@ -43,12 +43,21 @@ interface UserResponse {
   data: UserData;
 }
 
+interface Forum {
+  id : number,
+  title : string,
+  author_id : number,
+  created_at : Date,
+  post_count : number
+}
+
 export default function ForumDetailPage() {
   const id = useParams().id;
 
   const [newReplyPopup, setNewReplyPopup]= useState(false);
   const [apiResponse, setApiResponse] = useState<ApiResponse>();
   const [userResponse, setUserResponse] = useState<UserResponse>();
+  const [forumData, setForumData] = useState<Forum>();
 
   const getUserResponse = async () => {
     try {
@@ -100,18 +109,45 @@ export default function ForumDetailPage() {
       console.error('Error fetching user data:', error);
     }
   };
+
+  
+  const getForumData = async() => {
+    try {
+      const response = await fetch(REST_URL+"/forum/"+id,{
+        method: "GET",
+        headers: {
+          "Authorization": localStorage.getItem("token") ?? "",
+          "Content-Type": "application/json",
+        },
+      }); 
+
+      const data = await response.json();
+      if (response.ok){
+        setForumData(data.data as Forum);
+      }
+    } catch (error){
+      console.error("Failed getting forum data")
+    }
+  }
+
   
 
   useEffect(() => {
     getApiResponse();
+    getForumData();
   }, []);
 
   const postDatas: PostData[] = apiResponse?.data ?? [];
-  console.log(postDatas);
+  // console.log(postDatas);
+  // console.log(forumData);
 
-  // if (!id not found) {
-  //   return (<ErrorPage/>)
-  // }
+
+
+
+
+  if (!forumData){
+    return <ErrorPage/>;
+  }
 
   return (
     <Flex
@@ -121,9 +157,8 @@ export default function ForumDetailPage() {
       w={"90%"}
       py={"20px"}
     >
-      <Text fontWeight={"bold"} fontSize={"24"}>
-        {" "}
-        {`Forum ${id}`}{" "}
+      <Text textAlign={"center"} fontWeight={"bold"} fontSize={"24"}>
+        {forumData?.title}
       </Text>
 
       {/* Main Content */}
@@ -134,7 +169,7 @@ export default function ForumDetailPage() {
               width={"full"}
               headerBgColor="red_orange"
               text={data.content}
-              date={data.created_at.slice(0,10) + " " + data.created_at.slice(11,19)}
+              date={data.created_at.split('T')[0] + " " + data.created_at.slice(11,19)}
               authorName={data.client.username}
               authorImage={data.client.image}
               post_id={data.post_id}
@@ -159,7 +194,7 @@ export default function ForumDetailPage() {
               width={"90%"}
               headerBgColor="blue_cobalt"
               text={data.content}
-              date={data.created_at.slice(0,10) + " " + data.created_at.slice(11,19)}
+              date={data.created_at.split('T')[0] + " " + data.created_at.slice(11,19)}
               authorName={data.client.username}
               authorImage={data.client.image}
               post_id={data.post_id}

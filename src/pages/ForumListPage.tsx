@@ -32,14 +32,14 @@ interface ApiResponse {
   data: ForumData[];
 }
 
-const SORT_OPTION = ["Recent Forum", "Most Replies", "Forum Title"];
+const SORT_OPTION = ["Recent", "Replies", "Title"];
 const OPTION_HEIGHT = "50px";
 
 export default function ForumListPage() {
-  const [sortBy, setSortBy] = useState("Recent Forum");
+  const [sortBy, setSortBy] = useState("Recent");
   const [newForumPopup, setNewForumPopup] = useState(false);
   const [apiResponse, setApiResponse] = useState<ApiResponse>();
-
+  const [searchHolder, setSearchHolder] = useState("");
 
   const handleSortBy = (sort: string) => {
     setSortBy(sort);
@@ -47,34 +47,41 @@ export default function ForumListPage() {
 
   const getApiResponse = async () => {
     try {
-      const response = await fetch(`${REST_URL}/forum`, {
-        method: "GET",
+      const response = await fetch(`${REST_URL}/forum/filter`, {
+        method: "POST",
         headers: {
-          "Authorization": localStorage.getItem("token") ?? "",
+          Authorization: localStorage.getItem("token") ?? "",
           "Content-Type": "application/json",
         },
+        body : JSON.stringify({
+          sort : sortBy,
+          search: searchHolder,
+        })
       });
-  
+
       const apiResponse = await response.json();
-  
+
       if (!response.ok) {
         alert(apiResponse.message);
       } else {
         setApiResponse(apiResponse as ApiResponse);
       }
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error("Error fetching user data:", error);
     }
   };
-  
 
   useEffect(() => {
     getApiResponse();
-  }, [])
+  },[]);
+
+  const handleSearchChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+    setSearchHolder(e.target.value)
+    console.log(searchHolder)
+  }
 
   const forumData: ForumData[] = apiResponse?.data ?? [];
-  console.log(forumData);
-  
+  // console.log(forumData);
 
   return (
     <Flex
@@ -123,7 +130,7 @@ export default function ForumListPage() {
                   transitionDuration={"0.2s"}
                   transitionTimingFunction={"ease-in-out"}
                   px={{ base: "5px", md: "10px" }}
-                  py={{base: "0px", md: "10px"}}
+                  py={{ base: "0px", md: "10px" }}
                   onClick={() => handleSortBy(item)}
                   _hover={{
                     color: item === sortBy ? "white" : "red_orange",
@@ -145,6 +152,7 @@ export default function ForumListPage() {
               bgColor={"white"}
               borderRadius={"20px"}
               placeholder="Search the forum title..."
+              onChange={(e) => handleSearchChange(e)}
             />
             <InputLeftElement>
               <SearchIcon />
@@ -165,7 +173,9 @@ export default function ForumListPage() {
           text="New Forum"
           bgColor="red_orange"
           color="white"
-          onClick={() => {setNewForumPopup(true)}}
+          onClick={() => {
+            setNewForumPopup(true);
+          }}
         />
       </Flex>
 
@@ -204,16 +214,26 @@ export default function ForumListPage() {
                   {data.title}{" "}
                 </Text>
 
-                <Text
-                  w={"full"}
-                  textAlign={"left"}
-                  fontWeight={"bold"}
-                  fontSize={"16px"}
-                  color={"#898989"}
-                  noOfLines={1}
-                >
-                  {data.client.username + " " + data.created_at.slice(0, 10)}
-                </Text>
+                <Flex flexDir={"row"} justifyContent={"left"} gap={"30px"}>
+                  <Text
+                    textAlign={"left"}
+                    fontWeight={"bold"}
+                    fontSize={"16px"}
+                    color={"black"}
+                    noOfLines={1}
+                  >
+                    {data.client.username}
+                  </Text>
+
+                  <Text
+                    textAlign={"left"}
+                    fontSize={"16px"}
+                    color={"#898989"}
+                    noOfLines={1}
+                  >
+                    {data.created_at.split('T')[0]}
+                  </Text>
+                </Flex>
               </Flex>
             </Link>
           );
@@ -221,7 +241,11 @@ export default function ForumListPage() {
       </Wrap>
 
       {/* New Forum Popup */}
-      <PostForm open={newForumPopup} setClose={() => setNewForumPopup(false)} isForum={true}/>
+      <PostForm
+        open={newForumPopup}
+        setClose={() => setNewForumPopup(false)}
+        isForum={true}
+      />
     </Flex>
   );
 }
