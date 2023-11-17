@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Flex,
   Wrap,
@@ -7,11 +7,30 @@ import {
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import { ForumData } from "../dummy/AllData";
+// import { ForumData } from "../dummy/AllData";
 import { Link } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { ButtonComps } from "../comps/ButtonComps";
 import { PostForm } from "../comps/PostForm";
+import { REST_URL } from "../constant/constant";
+
+interface ClientName {
+  username: string;
+}
+
+interface ForumData {
+  client: ClientName;
+  id: number;
+  title: string;
+  author_id: number;
+  created_at: string;
+  post_count: number;
+}
+
+interface ApiResponse {
+  message: string;
+  data: ForumData[];
+}
 
 const SORT_OPTION = ["Recent Forum", "Most Replies", "Forum Title"];
 const OPTION_HEIGHT = "50px";
@@ -19,10 +38,44 @@ const OPTION_HEIGHT = "50px";
 export default function ForumListPage() {
   const [sortBy, setSortBy] = useState("Recent Forum");
   const [newForumPopup, setNewForumPopup] = useState(false);
+  const [apiResponse, setApiResponse] = useState<ApiResponse>();
+
 
   const handleSortBy = (sort: string) => {
     setSortBy(sort);
   };
+
+  const getApiResponse = async () => {
+    try {
+      const response = await fetch(`${REST_URL}/forum`, {
+        method: "GET",
+        headers: {
+          "Authorization": localStorage.getItem("token") ?? "",
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const apiResponse = await response.json();
+  
+      if (!response.ok) {
+        alert(apiResponse.message);
+      } else {
+        setApiResponse(apiResponse as ApiResponse);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  
+
+  useEffect(() => {
+    getApiResponse();
+  }, [])
+
+  const forumData: ForumData[] = apiResponse?.data ?? [];
+  console.log(forumData);
+  
+
   return (
     <Flex
       flexDir={"column"}
@@ -117,7 +170,7 @@ export default function ForumListPage() {
       </Flex>
 
       <Wrap justify={"center"} spacing={"15px"} w={"full"}>
-        {ForumData.map((data) => {
+        {forumData?.map((data: ForumData) => {
           return (
             <Link to={data.id.toString()}>
               <Flex
@@ -159,7 +212,7 @@ export default function ForumListPage() {
                   color={"#898989"}
                   noOfLines={1}
                 >
-                  {`Nama Author - ` + data.created_at}
+                  {data.client.username + " " + data.created_at.slice(0, 10)}
                 </Text>
               </Flex>
             </Link>
