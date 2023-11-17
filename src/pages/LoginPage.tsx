@@ -28,6 +28,7 @@ export default function LoginPage() {
     const response = await fetch(REST_URL + "/client/token", {
       method: "POST",
       headers: {
+        "Authorization": localStorage.getItem("token") ?? "",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody),

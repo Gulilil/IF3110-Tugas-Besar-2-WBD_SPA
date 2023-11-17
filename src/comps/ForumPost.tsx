@@ -11,18 +11,20 @@ export const ForumPost = ({
   text,
   date,
   authorName,
-  authorId,
   authorImage,
   post_id,
+  author_id,
+  user_id,
 }: {
   width?: string | number;
   headerBgColor?: string;
   text: string;
   date: string;
   authorName: string;
-  authorId: number;
   authorImage?: string;
   post_id: string | number;
+  author_id: number;
+  user_id: number;
 }) => {
   const [editReplyPopup, setEditReplyPopup] = useState(false);
   return (
@@ -59,8 +61,8 @@ export const ForumPost = ({
           gap={"10px"}
         >
           <ImageComps width={"150px"} height={"150px"} />
-          <Link to={`/client/${authorId}`}>
-            <Text fontWeight={"bold"} _hover={{color:"blue_cobalt"}}> {`Author Name`} </Text>
+          <Link to={`/client/${author_id}`}>
+            <Text fontWeight={"bold"} _hover={{color:"blue_cobalt"}}> {authorName} </Text>
           </Link>
         </Flex>
         {/* Post Content */}
@@ -76,13 +78,17 @@ export const ForumPost = ({
           <Text whiteSpace={"pre-line"} textAlign={"justify"}>
             {text}
           </Text>
-          <ButtonComps
-            onClick={() => setEditReplyPopup(true)}
-            text="Edit"
-            bgColor="yellow_golden"
-            color="white"
-            width={"150px"}
-          />
+
+          {author_id === user_id && (
+            <ButtonComps
+              onClick={() => setEditReplyPopup(true)}
+              text="Edit"
+              bgColor="yellow_golden"
+              color="white"
+              width={"150px"}
+            />
+          )}
+
         </Flex>
       </Flex>
 
