@@ -123,7 +123,7 @@ export default function ForumDetailPage() {
     >
       <Text fontWeight={"bold"} fontSize={"24"}>
         {" "}
-        {`ForumDetailPage with ID : ${id}`}{" "}
+        {`Forum ${id}`}{" "}
       </Text>
 
       {/* Main Content */}
@@ -136,9 +136,11 @@ export default function ForumDetailPage() {
               text={data.content}
               date={data.created_at.slice(0,10) + " " + data.created_at.slice(11,19)}
               authorName={data.client.username}
+              authorImage={data.client.image}
               post_id={data.post_id}
               author_id={data.author_id}
               user_id={userData?.id ?? 0}
+              forum_id={data.forum_id}
             />
           );
         }
@@ -159,9 +161,11 @@ export default function ForumDetailPage() {
               text={data.content}
               date={data.created_at.slice(0,10) + " " + data.created_at.slice(11,19)}
               authorName={data.client.username}
+              authorImage={data.client.image}
               post_id={data.post_id}
               author_id={data.author_id}
               user_id={userData?.id ?? 0}
+              forum_id={data.forum_id}
             />
           );
         }

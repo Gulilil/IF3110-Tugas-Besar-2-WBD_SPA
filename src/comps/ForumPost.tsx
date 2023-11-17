@@ -14,6 +14,7 @@ export const ForumPost = ({
   post_id,
   author_id,
   user_id,
+  forum_id,
 }: {
   width?: string | number;
   headerBgColor?: string;
@@ -24,6 +25,7 @@ export const ForumPost = ({
   post_id: string | number;
   author_id: number;
   user_id: number;
+  forum_id: number;
 }) => {
   const [editReplyPopup, setEditReplyPopup] = useState(false);
   return (
@@ -59,7 +61,11 @@ export const ForumPost = ({
           alignItems={"center"}
           gap={"10px"}
         >
-          <ImageComps width={"150px"} height={"150px"} />
+          <ImageComps 
+            width={"150px"} 
+            height={"150px"} 
+            url={authorImage ? authorImage : undefined}
+          />
           <Text fontWeight={"bold"}> {authorName} </Text>
         </Flex>
         {/* Post Content */}
@@ -95,6 +101,8 @@ export const ForumPost = ({
         setClose={() => setEditReplyPopup(false)}
         isForum={false}
         initialContent={text}
+        postID={post_id ? (typeof post_id === 'string' ? parseInt(post_id, 10) : post_id) : 0}
+
       />
     </Flex>
   );

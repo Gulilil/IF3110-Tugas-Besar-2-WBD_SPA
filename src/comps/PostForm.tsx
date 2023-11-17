@@ -2,23 +2,104 @@ import { Flex, Input, Text, Textarea } from "@chakra-ui/react";
 import React, { useState } from "react";
 import PopupWithBlackOverlay from "./PopupWithBlackOverlay";
 import { ButtonComps } from "./ButtonComps";
+import { REST_URL } from "../constant/constant";
+import { useParams } from "react-router";
 
 export const PostForm = ({
   open,
   setClose,
   isForum,
   initialContent,
+  postID,
 }: {
   open: boolean;
   setClose: () => void;
   isForum: boolean;
   initialContent?: string;
+  postID?: number;
 }) => {
   const [titleHolder, setTitleHolder] = useState("");
   const [contentHolder, setContentHolder] = useState(initialContent? initialContent : "");
 
-  const handleSubmit = () => {
-    console.log("clicked");
+
+  const addForum = async () => {
+    const response = await fetch(`${REST_URL}/forum`, {
+      method: "POST",
+      headers: {
+        "Authorization": localStorage.getItem("token") ?? "",
+        "Content-Type": "application/json",
+      },
+      body : JSON.stringify({
+        title: titleHolder,
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok){
+      alert(data.message);
+      return null;
+    } else {
+      return data.id;
+    }
+  }
+
+  const addPost = async (forumID: number) => {
+    const response = await fetch(`${REST_URL}/post`, {
+      method: "POST",
+      headers: {
+        "Authorization": localStorage.getItem("token") ?? "",
+        "Content-Type": "application/json",
+      },
+      body : JSON.stringify({
+        forum_id: forumID,
+        content: contentHolder,
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok){
+      alert(data.message);
+    } else {
+      console.log(data);
+    }
+  }
+
+  const editPost = async (forumID: number) => {
+    const response = await fetch(`${REST_URL}/post/${postID}`, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("token") ?? "",
+        "Content-Type": "application/json",
+      },
+      body : JSON.stringify({
+        forum_id: forumID,
+        content: contentHolder,
+      })
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok){
+      alert(data.message);
+    }
+  } 
+
+  const id = useParams().id;
+
+  const handleSubmit = async () => {
+    if(isForum) {
+      const forumId = await addForum();
+      if (forumId) {
+        await addPost(forumId);
+      }
+    } else if(initialContent && id) {
+      editPost(parseInt(id));
+    } else if(id) {
+      addPost(parseInt(id));
+    }
+    window.location.reload();
   };
 
   return (
@@ -87,7 +168,13 @@ export const PostForm = ({
         </Flex>
 
         <ButtonComps
-          text="Add Forum"
+          text= 
+          {isForum
+            ? "Add Forum"
+            : initialContent 
+            ? "Edit Reply"
+            : "Add  Reply"}
+
           bgColor="red_orange"
           color="white"
           onClick={() => {
