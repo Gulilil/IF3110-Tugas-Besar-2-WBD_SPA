@@ -32,13 +32,14 @@ interface ApiResponse {
   data: ForumData[];
 }
 
-const SORT_OPTION = ["Recent Forum", "Most Replies", "Forum Title"];
+const SORT_OPTION = ["Recent", "Replies", "Title"];
 const OPTION_HEIGHT = "50px";
 
 export default function ForumListPage() {
-  const [sortBy, setSortBy] = useState("Recent Forum");
+  const [sortBy, setSortBy] = useState("Recent");
   const [newForumPopup, setNewForumPopup] = useState(false);
   const [apiResponse, setApiResponse] = useState<ApiResponse>();
+  const [searchHolder, setSearchHolder] = useState("");
 
   const handleSortBy = (sort: string) => {
     setSortBy(sort);
@@ -46,12 +47,16 @@ export default function ForumListPage() {
 
   const getApiResponse = async () => {
     try {
-      const response = await fetch(`${REST_URL}/forum`, {
-        method: "GET",
+      const response = await fetch(`${REST_URL}/forum/filter`, {
+        method: "POST",
         headers: {
           Authorization: localStorage.getItem("token") ?? "",
           "Content-Type": "application/json",
         },
+        body : JSON.stringify({
+          sort : sortBy,
+          search: searchHolder,
+        })
       });
 
       const apiResponse = await response.json();
@@ -68,10 +73,15 @@ export default function ForumListPage() {
 
   useEffect(() => {
     getApiResponse();
-  }, []);
+  },[]);
+
+  const handleSearchChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+    setSearchHolder(e.target.value)
+    console.log(searchHolder)
+  }
 
   const forumData: ForumData[] = apiResponse?.data ?? [];
-  console.log(forumData);
+  // console.log(forumData);
 
   return (
     <Flex
@@ -142,6 +152,7 @@ export default function ForumListPage() {
               bgColor={"white"}
               borderRadius={"20px"}
               placeholder="Search the forum title..."
+              onChange={(e) => handleSearchChange(e)}
             />
             <InputLeftElement>
               <SearchIcon />
