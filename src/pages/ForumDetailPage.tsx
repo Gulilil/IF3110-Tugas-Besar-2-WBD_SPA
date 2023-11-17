@@ -109,18 +109,8 @@ export default function ForumDetailPage() {
       console.error('Error fetching user data:', error);
     }
   };
+
   
-
-  useEffect(() => {
-    getApiResponse();
-    getForumData();
-  }, []);
-
-  const postDatas: PostData[] = apiResponse?.data ?? [];
-  console.log(postDatas);
-
-
-
   const getForumData = async() => {
     try {
       const response = await fetch(REST_URL+"/forum/"+id,{
@@ -133,16 +123,31 @@ export default function ForumDetailPage() {
 
       const data = await response.json();
       if (response.ok){
-        setForumData(data as Forum);
+        setForumData(data.data as Forum);
       }
     } catch (error){
       console.error("Failed getting forum data")
     }
   }
 
-    // if (!id not found) {
-  //   return (<ErrorPage/>)
-  // }
+  
+
+  useEffect(() => {
+    getApiResponse();
+    getForumData();
+  }, []);
+
+  const postDatas: PostData[] = apiResponse?.data ?? [];
+  // console.log(postDatas);
+  // console.log(forumData);
+
+
+
+
+
+  if (!forumData){
+    return <ErrorPage/>;
+  }
 
   return (
     <Flex
@@ -152,7 +157,7 @@ export default function ForumDetailPage() {
       w={"90%"}
       py={"20px"}
     >
-      <Text fontWeight={"bold"} fontSize={"24"}>
+      <Text textAlign={"center"} fontWeight={"bold"} fontSize={"24"}>
         {forumData?.title}
       </Text>
 
@@ -164,7 +169,7 @@ export default function ForumDetailPage() {
               width={"full"}
               headerBgColor="red_orange"
               text={data.content}
-              date={data.created_at.slice(0,10) + " " + data.created_at.slice(11,19)}
+              date={data.created_at.split('T')[0] + " " + data.created_at.slice(11,19)}
               authorName={data.client.username}
               post_id={data.post_id}
               author_id={data.author_id}
@@ -187,7 +192,7 @@ export default function ForumDetailPage() {
               width={"90%"}
               headerBgColor="blue_cobalt"
               text={data.content}
-              date={data.created_at.slice(0,10) + " " + data.created_at.slice(11,19)}
+              date={data.created_at.split('T')[0] + " " + data.created_at.slice(11,19)}
               authorName={data.client.username}
               post_id={data.post_id}
               author_id={data.author_id}

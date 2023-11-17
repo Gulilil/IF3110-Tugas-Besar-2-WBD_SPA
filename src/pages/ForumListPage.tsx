@@ -220,7 +220,7 @@ export default function ForumListPage() {
                     color={"#898989"}
                     noOfLines={1}
                   >
-                    {data.created_at.slice(0, 10)}
+                    {data.created_at.split('T')[0]}
                   </Text>
                 </Flex>
               </Flex>
