@@ -1,46 +1,89 @@
-# Getting Started with Create React App
+# IF3110 Tugas Besar 2 WBD_SPA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## *Tubes2_Kelompok 8_SPA*
 
-## Available Scripts
+## **Table of Contents**
+* [Program Description](#program-description)
+* [Program Requirement](#program-requirement)
+* [Used Packages](#used-packages)
+* [Execution Guide](#execution-guide)
+* [Implementation Screenshots](#implementation-screenshots)
+* [Progress Report](#progress-report)
+* [Workload Distribution](#workload-distribution)
 
-In the project directory, you can run:
+## **Program Description**
+**InfoAnimeMasseForum** is an web-based application that allows user to have a forum discussion regarding any topic that they want. This program will be supported by the REST protocol from the other repository.
 
-### `npm start`
+## **Program Requirement**
+Here are the requirements to run the program
+| Requirements | Reference Link |
+|--------------|----------------|
+| Nodejs | [Nodejs](https://nodejs.org/en) |
+| Docker | [Docker](https://docs.docker.com/desktop/install/windows-install/) |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## **Used Packages**
+Here are the packages used in the program
+| Packages | Reference Link |
+|----------|------------------------|
+| ChakraUI | [ChakraUI](https://chakra-ui.com/getting-started) |
+| React-router-dom | [React-router-dom](https://www.npmjs.com/package/react-router-dom) |
+| React-icons | [React-icons](https://react-icons.github.io/react-icons/) |
+| React-alice-carousel | [React-alice-carousel](https://github.com/maxmarinich/react-alice-carousel) |
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## **Execution Guide**
+1. Clone this repository with the following command
+```
+https://gitlab.informatika.org/if3110-2023-01-08/if3110-tugas-besar-1-wbd_spa.git
+```
+2. Change the directory into the cloned directory
+3. Start the program with the following command
+```
+npm start
+```
+4. The program will be launched on : `http://localhost:3001`
 
-### `npm run build`
+## **Implementation Screenshots**
+Will be added later.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Home Page
+<img src="assets/home.jpg">
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Login Page
+<img src="assets/login.jpg">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Signup Page
+<img src="assets/signup.jpg">
 
-### `npm run eject`
+### Profile Page
+<img src="assets/profile.jpg">
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Reference Page
+<img src="assets/reference.jpg">
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Forum List Page
+<img src="assets/forum_list.jpg">
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Forum Detail Page
+<img src="assets/forum_detail.jpg">
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### New Forum Popup
+<img src="assets/new_forum.jpg">
 
-## Learn More
+### Add Reply Popup
+<img src="assets/add_reply.jpg">
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Edit Reply Popup
+<img src="assets/edit_reply.jpg">
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Not Authorized Page
+<img src="assets/not_authorized.jpg">
+
+## **Workload Distribution**
+| Name                     | Student ID | Functionalities | Display |
+|--------------------------|------------|-------------|--------------|
+| Irfan                    | 10023176   |  |  |
+| Bagas Aryo Seto          | 13521081   | <ul> <li> Forum List Integration <li> Forum Page Integration </ul> |  |
+| Juan Christopher Santoso | 13521116   | <ul> <li> Login and Register Integration <li> Authentication Checking Integration <li> Follow and Unfollow Integration <li> Link and Unlink Integration <li> SOAP Connection | All Pages and Components |
+

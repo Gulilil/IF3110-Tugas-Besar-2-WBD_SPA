@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  infoanimemasse:
+    build: ./
+    container_name: wbd_spa
+    ports:
+      - '3001:3001'
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
